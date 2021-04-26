@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <form class="" action="{% url 'index' %} " method="post">
+            {% csrf_token %}
+            <label for="weight">Weight: </label>
+            <input type="number" step="0.01" id='weight' name="weight">
+
+            <label for="height">Height: </label>
+            <input type="number" step="0.01" id='height' name="height">
+
+            <label for="HeadCircumference">Head Circumference: </label>
+            <input type="number" step="0.01" id='HeadCircumference' name="HeadCircumference">
+
+            <input type="submit" value="OK">
+
+        </form>
+    </body>
+</html>
