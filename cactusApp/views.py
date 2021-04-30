@@ -4,7 +4,7 @@ from pygrowup import Calculator
 from pygrowup import helpers
 import datetime
 
-
+# [10.38209025, 10.4414422, 10.55847309, 10.67380261, 10.78798157, 10.90147346, 10.999]
 def index(request):
     '''Index view, render the home page'''
     if request.method == "POST":
