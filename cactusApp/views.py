@@ -1,11 +1,53 @@
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
 from pygrowup import Calculator
 from pygrowup import helpers
 import datetime
 
 def index(request):
+    return render(request, 'cactusApp/home.html')
+
+
+def home(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return JsonResponse({"message": "Invalid credentials."})
     return render(request, 'cactusApp/index.html')
+
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        password2 = request.POST["password2"]
+
+        if not password == password2:
+            return JsonResponse({"message": "Passwords don't match."})
+
+        user = User.objects.create_user(username, password)
+        user.username = username
+        user.save()
+
+        login(request, user)
+
+        return render(request, "cactusApp/home.html", {"message":"Registered. You can log in now."})
+
+
+
+def logout(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return render(request, 'cactusApp/home.html', {"message": "Logged out."})
+
 
 def calculate_score(request):
     '''Index view, render the home page'''
