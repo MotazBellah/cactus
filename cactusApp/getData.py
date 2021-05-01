@@ -53,6 +53,7 @@ def draw(data, title, y_lable, x_lable):
     plt.legend()
 
     x_ticks = np.arange(24, 60, 2)
+    # x_ticks = np.arange(24, 240, 20)
     plt.xticks(x_ticks)
 
     y_ticks = np.arange(5, 50, 2)

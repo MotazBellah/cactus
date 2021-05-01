@@ -1,85 +1,56 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- semantic UI -->
-    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
-    <!--Chart js-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+{% extends "cactusApp/base.html" %}
+{% load static %}
 
-    <title></title>
-  </head>
-  <body>
-      <form class="" action="{% url 'index' %} " method="post">
-          {% csrf_token %}
-          <label for="weight">Weight: </label>
-          <input type="number" step="0.01" id='weight' name="weight">
+{% block title %}Home{% endblock %}
 
-          <label for="height">Height: </label>
-          <input type="number" step="0.01" id='height' name="height">
+{% block body %}
+<div class="row mt-2">
+    <div class="col">
+      <img class="center" src="{% static 'img/Logo.png' %}" alt="">
+      <p>Seeing a child grow up to be a healthy person is a number one priority for young parents, yet help is limited and knowledge resources are vast and complicated. This is especially crucial in the infant to toddler stages of the development.</p>
+      <br>
+      <p>cactus. has the purpose of helping young parents measure their child’s growth, gain understanding into risk factors and give recommendations on how to avoid these risks. Through a smart algorithm and continuous improvements based on research in cooperation with Barnklinik Halmstad, we hope to give parents a piece of helpful tools to nurture a healthy growth.</p>
+    </div>
+    <div class="col wrapper">
+        <div class="card card-center">
+          <div class="card-container">
+              <form action="#" method="post" class="form-group">
+                  {% csrf_token %}
+                  <input class="form-control my-2" name="username" type="text" placeholder="username"/>
+                  <input class="form-control my-2" name="password" type="password" placeholder="password"/>
+                  <input class="btn btn-success mt-2 login-btn" type="submit" value="Login"/>
+              </form>
+              <hr>
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary mb-2 login-btn" data-toggle="modal" data-target="#registerModal">
+                Register here
+                </button>
+          </div>
+        </div>
+ </div>
 
-          <label for="HeadCircumference">Head Circumference: </label>
-          <input type="number" step="0.01" id='HeadCircumference' name="HeadCircumference">
 
-          <input type="submit" value="OK">
+ <!-- Modal -->
+ <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
+       </div>
+       <form class="form-group" action="#" method="post">
+           <div class="modal-body">
+                {% csrf_token %}
+                <input class="form-control my-2" name="username" type="text" placeholder="username"/>
+                <input class="form-control my-2" name="password" type="password" placeholder="password"/>
+                <input class="form-control my-2" name="password2" type="password" placeholder="confirm password"/>
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             <button type="submit" class="btn btn-primary">Create Account</button>
+           </div>
+       </form>
+     </div>
+   </div>
+ </div>
 
-      </form>
-        <canvas id="myChart" width="400" height="150"></canvas>
-      <script type="text/javascript">
-        $(document).ready(function() {
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [7, 8, 9, 10, 11, 12, 13, 14],
-                    },
-                    {
-                        label: '# of Votes',
-                        data: [10.38209025, 10.4414422, 10.55847309, 10.67380261, 10.78798157, 10.90147346, 10.999],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    },
-
-                    {
-                        label: '# of Votes',
-                        data: [10.64009004, 10.70051298, 10.81957536, 10.93681171, 11.05280067, 11.28292555, 11.3978197],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    },
-
-                ]
-                },
-                options: {
-                    scales: {
-                        yAxes: {
-                            stacked: true
-                        }
-                    }
-                }
-            });
-        });
-      </script>
-  </body>
-</html>
+{% endblock %}

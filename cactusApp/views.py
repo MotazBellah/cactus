@@ -4,8 +4,10 @@ from pygrowup import Calculator
 from pygrowup import helpers
 import datetime
 
-# [10.38209025, 10.4414422, 10.55847309, 10.67380261, 10.78798157, 10.90147346, 10.999]
 def index(request):
+    return render(request, 'cactusApp/index.html')
+
+def calculate_score(request):
     '''Index view, render the home page'''
     if request.method == "POST":
         weight = request.POST['weight']
@@ -21,7 +23,7 @@ def index(request):
                        log_level='INFO')
 
         great_day = datetime.datetime.utcnow().date()
-        nine_months_ago = great_day - datetime.timedelta(days=(9 * 30.4374))
+        nine_months_ago = great_day - datetime.timedelta(days=(24 * 30.4374))
         dob = nine_months_ago.strftime("%d%m%y")
 
         my_child = {'date_of_birth' : dob, 'sex' : 'male', 'weight' : '8.0', 'height' : '69.5'}
@@ -38,11 +40,11 @@ def index(request):
         # calculate weight-for-age zscore
         wfa_zscore_for_my_child = calculator.wfa(my_child['weight'], valid_age, valid_gender)
 
-        # calculate weight-for-length zscore
-        # optional height parameter is only necessary for weight-for-height
-        # and weight-for-length
-        wfl_zscore_for_my_child = calculator.wfl(my_child['weight'], valid_age, valid_gender, my_child['height'])
+        # calculate weight-for-age zscore
+        bmi = calculator.bmifa(my_child['weight'], valid_age, valid_gender)
+        # print(calculator.bmifa.__defaults__)
 
-        print(wfa_zscore_for_my_child, wfl_zscore_for_my_child)
+
+        print(wfa_zscore_for_my_child, bmi)
 
     return render(request, 'cactusApp/index.html')
