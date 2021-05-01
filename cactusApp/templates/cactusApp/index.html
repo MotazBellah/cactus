@@ -5,28 +5,31 @@
 
 {% block body %}
 <div class="row mt-2">
-    <div class="col">
+    <div class="col-sm-6">
       <img class="center" src="{% static 'img/Logo.png' %}" alt="">
       <p>Seeing a child grow up to be a healthy person is a number one priority for young parents, yet help is limited and knowledge resources are vast and complicated. This is especially crucial in the infant to toddler stages of the development.</p>
       <br>
       <p>cactus. has the purpose of helping young parents measure their child’s growth, gain understanding into risk factors and give recommendations on how to avoid these risks. Through a smart algorithm and continuous improvements based on research in cooperation with Barnklinik Halmstad, we hope to give parents a piece of helpful tools to nurture a healthy growth.</p>
     </div>
-    <div class="col wrapper">
-        <div class="card card-center">
-          <div class="card-container">
-              <form action="#" method="post" class="form-group">
-                  {% csrf_token %}
-                  <input class="form-control my-2" name="username" type="text" placeholder="username"/>
-                  <input class="form-control my-2" name="password" type="password" placeholder="password"/>
-                  <input class="btn btn-success mt-2 login-btn" type="submit" value="Login"/>
-              </form>
-              <hr>
-              <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary mb-2 login-btn" data-toggle="modal" data-target="#registerModal">
-                Register here
-                </button>
-          </div>
+    <div class="col-sm-6">
+        <div class="wrapper">
+            <div class="card card-center">
+              <div class="card-container">
+                  <form action="#" method="post" class="form-group">
+                      {% csrf_token %}
+                      <input class="form-control my-2" name="username" type="text" placeholder="username"/>
+                      <input class="form-control my-2" name="password" type="password" placeholder="password"/>
+                      <input class="btn btn-success mt-2 login-btn" type="submit" value="Login"/>
+                  </form>
+                  <hr>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary mb-2 login-btn" data-toggle="modal" data-target="#registerModal">
+                    Register here
+                    </button>
+              </div>
+            </div>
         </div>
+
  </div>
 
 
