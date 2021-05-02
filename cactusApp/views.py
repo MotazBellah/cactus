@@ -1,5 +1,6 @@
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from pygrowup import Calculator
@@ -14,8 +15,10 @@ def home(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
-        
+
         user = authenticate(request, username=username, password=password)
+        print('//////////')
+        print(user)
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
@@ -43,10 +46,10 @@ def register(request):
 
 
 
-def logout(request):
+def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
-    return render(request, 'cactusApp/home.html', {"message": "Logged out."})
+    return HttpResponseRedirect(reverse("home"))
 
 
 def calculate_score(request):
