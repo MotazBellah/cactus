@@ -45,3 +45,41 @@ img{
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   text-align: center;
+   padding: 1.1rem;
+}
+
+#footer-img {
+    width: 150px;
+    height: 70px;
+}
+
+
+
+#logoutButton {
+  margin: 20px;
+  position: fixed;
+  up: -40px;
+  right: 50px;
+}
+
+.wrapper-home {
+  height: 170px;
+  width: 300px;
+  background-color: lightgray;
+}
+
+
+.c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 480px;
+  text-align: center;
+}

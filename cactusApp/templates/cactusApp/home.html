@@ -4,6 +4,35 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<h1>Hi</h1>
+<div id="logoutButton">
+    <a href="{% url 'logout' %}" class="btn btn-success">Log Out</a>
+</div>
+
+    <div class="wrapper c">
+        <div class="card">
+              <div class="card-container">
+                  <h4 class="my-2">Add a Child</h4>
+                  <form action="#" method="post" class="form-group">
+                      {% csrf_token %}
+                      <input class="form-control my-2" name="childname" type="text" placeholder="Child Name"/>
+                      <select class="form-control my-2" style="width:100%">
+                        <option selected>Choose Gender...</option>
+                        <option value="boy">Boy</option>
+                        <option value="girl">Girl</option>
+                      </select>
+                      <input class="form-control" type="date" value="date" id="example-date-input">
+                      <input class="btn btn-success my-2 login-btn" type="submit" value="Continue"/>
+                  </form>
+
+        </div>
+    </div>
+
+
+
+
+
+<footer>
+    <img id="footer-img" class="center" src="{% static 'img/Logo.png' %}" alt="">
+</footer>
 
 {% endblock %}
