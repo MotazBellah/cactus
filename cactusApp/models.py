@@ -6,7 +6,7 @@ from django.conf import settings
 class Child(models.Model):
     name = models.CharField(max_length=64)
     gender = models.CharField(max_length=5)
-    birthday = models.CharField(max_length=64)
+    birthday = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

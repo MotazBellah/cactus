@@ -2,12 +2,22 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
+from .models import Child, Measurement
 from django.contrib.auth import login, logout, authenticate
 from pygrowup import Calculator
 from pygrowup import helpers
 import datetime
 
 def index(request):
+    if request.method == "POST":
+        childname = request.POST["childname"]
+        childgender = request.POST.get("childgender")
+        childdate = request.POST["childdate"]
+
+        child = Child(name=childname, user=request.user, gender=childgender, birthday=childdate)
+        child.save()
+
+
     return render(request, 'cactusApp/home.html')
 
 
@@ -17,8 +27,6 @@ def home(request):
         password = request.POST["password"]
 
         user = authenticate(request, username=username, password=password)
-        print('//////////')
-        print(user)
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
