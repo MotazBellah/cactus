@@ -9,26 +9,23 @@
 </div> -->
 
 <div class="child-wrraper mt-10">
+    {% for i in kids %}
+
     <div class="child-card">
           <div class="card-container">
-              <img src="{% static 'img/boy.png' %}" alt="">
+              {% if i.gender == 'boy'%}
+                  <img src="{% static 'img/boy.png' %}" alt="">
+              {% else %}
+                  <img src="{% static 'img/girl.png' %}" alt="">
+              {% endif %}
               <div class="child-info">
-                  <span class="my-2">Child name</span><br>
-                  <span class="my-2">Child birthday</span>
+                  <span class="my-2">{{i.name}}</span><br>
+                  <span class="my-2 small">Born {{i.birthday}}</span>
               </div>
             </div>
     </div>
 
-    <div class="child-card">
-          <div class="card-container">
-              <img src="{% static 'img/girl.png' %}" alt="">
-              <div class="child-info">
-                  <span class="my-2">Child name</span><br>
-                  <span class="my-2">Child birthday</span>
-              </div>
-
-            </div>
-    </div>
+    {% endfor %}
 
 </div>
 

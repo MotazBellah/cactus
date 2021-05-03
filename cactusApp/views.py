@@ -37,7 +37,15 @@ def home(request):
 
 
 def kids(request):
-    return render(request, 'cactusApp/child.html')
+    kids = Child.objects.filter(user=request.user)
+    print('///////////')
+    print(kids)
+
+    context = {
+        'kids': kids,
+    }
+
+    return render(request, 'cactusApp/child.html', context)
 
 def register(request):
     if request.method == "POST":
