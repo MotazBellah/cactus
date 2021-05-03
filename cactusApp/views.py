@@ -17,6 +17,7 @@ def index(request):
         child = Child(name=childname, user=request.user, gender=childgender, birthday=childdate)
         child.save()
 
+        return HttpResponseRedirect(reverse("kids"))
 
     return render(request, 'cactusApp/home.html')
 
@@ -34,6 +35,9 @@ def home(request):
             return JsonResponse({"message": "Invalid credentials."})
     return render(request, 'cactusApp/index.html')
 
+
+def kids(request):
+    return render(request, 'cactusApp/child.html')
 
 def register(request):
     if request.method == "POST":

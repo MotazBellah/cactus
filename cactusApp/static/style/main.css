@@ -78,8 +78,42 @@ footer {
 
 .c {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   height: 480px;
   text-align: center;
+}
+
+.child-wrraper {
+    width: 100%;
+    margin: 0 auto;
+     margin-top: 16px;
+}
+.child-card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 300px;
+  display: inline-block;
+  margin: 10px;
+}
+
+.child-card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.child-card img {
+  width: 70px;
+  height: 70px;
+  display: inline;
+  float: left;
+  padding: 5px;
+}
+
+
+.child-info {
+    float: left
+    padding: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
 }

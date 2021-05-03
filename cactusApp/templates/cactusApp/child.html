@@ -1,0 +1,42 @@
+{% extends "cactusApp/base.html" %}
+{% load static %}
+
+{% block title %}Children{% endblock %}
+
+{% block body %}
+<!-- <div id="logoutButton">
+    <a href="{% url 'logout' %}" class="btn btn-success">Log Out</a>
+</div> -->
+
+<div class="child-wrraper mt-10">
+    <div class="child-card">
+          <div class="card-container">
+              <img src="{% static 'img/boy.png' %}" alt="">
+              <div class="child-info">
+                  <span class="my-2">Child name</span><br>
+                  <span class="my-2">Child birthday</span>
+              </div>
+            </div>
+    </div>
+
+    <div class="child-card">
+          <div class="card-container">
+              <img src="{% static 'img/girl.png' %}" alt="">
+              <div class="child-info">
+                  <span class="my-2">Child name</span><br>
+                  <span class="my-2">Child birthday</span>
+              </div>
+
+            </div>
+    </div>
+
+</div>
+
+
+
+
+<footer>
+    <img id="footer-img" class="center" src="{% static 'img/Logo.png' %}" alt="">
+</footer>
+
+{% endblock %}
