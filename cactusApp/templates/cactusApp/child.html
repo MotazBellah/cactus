@@ -12,22 +12,29 @@
     {% for i in kids %}
 
     <div class="child-card">
-          <div class="card-container">
-              {% if i.gender == 'boy'%}
-                  <img src="{% static 'img/boy.png' %}" alt="">
-              {% else %}
-                  <img src="{% static 'img/girl.png' %}" alt="">
-              {% endif %}
-              <div class="child-info">
-                  <span class="my-2">{{i.name}}</span><br>
-                  <span class="my-2 small">Born {{i.birthday}}</span>
+        <a href="#">
+            <div class="card-container">
+                {% if i.gender == 'boy'%}
+                    <img src="{% static 'img/boy.png' %}" alt="">
+                {% else %}
+                    <img src="{% static 'img/girl.png' %}" alt="">
+                {% endif %}
+                <div class="child-info">
+                    <span class="my-2">{{i.name}}</span><br>
+                    <span class="my-2 small">Born {{i.birthday}}</span>
+                </div>
               </div>
-            </div>
+        </a>
+
     </div>
 
     {% endfor %}
 
 </div>
+
+<a href="{% url 'index' %}" class="float">
+    <i class="fa fa-plus my-float"></i>
+</a>
 
 
 
