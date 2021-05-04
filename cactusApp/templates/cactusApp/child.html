@@ -12,7 +12,7 @@
     {% for i in kids %}
 
     <div class="child-card">
-        <a href="#">
+        <a href="{% url 'kid' i.id %}">
             <div class="card-container">
                 {% if i.gender == 'boy'%}
                     <img src="{% static 'img/boy.png' %}" alt="">

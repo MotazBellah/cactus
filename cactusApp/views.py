@@ -38,14 +38,17 @@ def home(request):
 
 def kids(request):
     kids = Child.objects.filter(user=request.user)
-    print('///////////')
-    print(kids)
 
     context = {
         'kids': kids,
     }
 
     return render(request, 'cactusApp/child.html', context)
+
+def kid_view(request, kid_id):
+    kids = Child.objects.filter(id=kid_id)
+
+    return render(request, 'cactusApp/child_info.html')
 
 def register(request):
     if request.method == "POST":
