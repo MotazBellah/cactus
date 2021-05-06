@@ -182,9 +182,17 @@ footer {
     text-align: center;
 }
 
-.chart-nav span {
+.chart-nav a {
     margin-left: 80px;
     margin-right: 80px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black
+}
+
+.chart-nav a:hover,
+.chart-nav a:active {
+    color: green;
 }
 
 .chart img {
@@ -222,12 +230,18 @@ footer {
 }
 
 .navbar {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-image: linear-gradient(to right, #1BAC47 , #7FE49E  );
+}
+
+#bmi-img {
+    display: 'none';
 }
 
 /* .navbar-text a, .navbar-light .navbar-text a:focus, .navbar-light .navbar-text a:hover {
     color: white;
 } */
+
 
 
 /* =================================
