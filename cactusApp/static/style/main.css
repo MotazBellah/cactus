@@ -203,7 +203,32 @@ footer {
 .logo-img{
     width: 120px;
     height: 50px;
+    margin-left: 16px;
 }
+
+.nav-content,
+.nav-content a {
+    margin-right: 12px;
+}
+
+.nav-content a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-content a:hover {
+  color: grey;
+}
+
+.navbar {
+    background-image: linear-gradient(to right, #1BAC47 , #7FE49E  );
+}
+
+/* .navbar-text a, .navbar-light .navbar-text a:focus, .navbar-light .navbar-text a:hover {
+    color: white;
+} */
+
 
 /* =================================
   Media Queries
