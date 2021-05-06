@@ -8,32 +8,36 @@
     <a href="{% url 'logout' %}" class="btn btn-success">Log Out</a>
 </div>
 
-    <div class="wrapper c">
-        <div class="card">
-              <div class="card-container">
-                  <h4 class="my-2">Add a Child</h4>
-                  <form action="{% url 'index' %}" method="post" class="form-group">
-                      {% csrf_token %}
-                      <input class="form-control my-2" name="childname" type="text" placeholder="Child Name"/>
-                      <select class="form-control my-2" name="childgender" style="width:100%">
-                        <option selected>Choose Gender...</option>
-                        <option value="boy">Boy</option>
-                        <option value="girl">Girl</option>
-                      </select>
-                      <input class="form-control" type="date" name="childdate">
-                      <input class="btn btn-success my-2 login-btn" type="submit" value="Continue"/>
-                  </form>
+<div class="container">
 
+        <div class="wrapper c">
+            <div class="card">
+                  <div class="card-container">
+                      <h4 class="my-2">Add a Child</h4>
+                      <form action="{% url 'index' %}" method="post" class="form-group">
+                          {% csrf_token %}
+                          <input class="form-control my-2" name="childname" type="text" placeholder="Child Name"/>
+                          <select class="form-control my-2" name="childgender" style="width:100%">
+                            <option selected>Choose Gender...</option>
+                            <option value="boy">Boy</option>
+                            <option value="girl">Girl</option>
+                          </select>
+                          <input class="form-control" type="date" name="childdate">
+                          <input class="btn btn-success my-2 login-btn" type="submit" value="Continue"/>
+                      </form>
+
+            </div>
         </div>
-    </div>
-    </div>
+        </div>
 
 
 
 
 
-<footer>
-    <img id="footer-img" class="center" src="{% static 'img/Logo.png' %}" alt="">
-</footer>
+    <footer>
+        <img id="footer-img" class="center" src="{% static 'img/Logo.png' %}" alt="">
+    </footer>
+</div>
+
 
 {% endblock %}

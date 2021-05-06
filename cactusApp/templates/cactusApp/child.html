@@ -7,40 +7,43 @@
 <!-- <div id="logoutButton">
     <a href="{% url 'logout' %}" class="btn btn-success">Log Out</a>
 </div> -->
+<div class="container">
 
-<div class="child-wrraper mt-10">
-    {% for i in kids %}
+    <div class="child-wrraper mt-10">
+        {% for i in kids %}
 
-    <div class="child-card">
-        <a href="{% url 'kid' i.id %}">
-            <div class="card-container">
-                {% if i.gender == 'boy'%}
-                    <img src="{% static 'img/boy.png' %}" alt="">
-                {% else %}
-                    <img src="{% static 'img/girl.png' %}" alt="">
-                {% endif %}
-                <div class="child-info">
-                    <span class="my-2">{{i.name}}</span><br>
-                    <span class="my-2 small">Born {{i.birthday}}</span>
-                </div>
-              </div>
-        </a>
+        <div class="child-card">
+            <a href="{% url 'kid' i.id %}">
+                <div class="card-container">
+                    {% if i.gender == 'boy'%}
+                        <img src="{% static 'img/boy.png' %}" alt="">
+                    {% else %}
+                        <img src="{% static 'img/girl.png' %}" alt="">
+                    {% endif %}
+                    <div class="child-info">
+                        <span class="my-2">{{i.name}}</span><br>
+                        <span class="my-2 small">Born {{i.birthday}}</span>
+                    </div>
+                  </div>
+            </a>
+
+        </div>
+
+        {% endfor %}
 
     </div>
 
-    {% endfor %}
+    <a href="{% url 'index' %}" class="float">
+        <i class="fa fa-plus my-float"></i>
+    </a>
 
+
+
+
+    <footer>
+        <img id="footer-img" class="center" src="{% static 'img/Logo.png' %}" alt="">
+    </footer>
 </div>
 
-<a href="{% url 'index' %}" class="float">
-    <i class="fa fa-plus my-float"></i>
-</a>
-
-
-
-
-<footer>
-    <img id="footer-img" class="center" src="{% static 'img/Logo.png' %}" alt="">
-</footer>
 
 {% endblock %}
