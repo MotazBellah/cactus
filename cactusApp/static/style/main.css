@@ -86,7 +86,7 @@ footer {
 }
 
 .child-wrraper {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
      margin-top: 16px;
 }
@@ -328,4 +328,22 @@ a {
 		width: 80%;
 		max-width: 1150px;
 	}
+}
+
+
+@media only screen and (max-width: 770px) {
+
+  .child-card {
+      width: 45%;
+      margin: 5px;
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+
+  .child-card {
+    width: 90%;
+    text-align: center;
+ }
 }

@@ -7,10 +7,10 @@
 
 <div class="container">
 
-    <div class="child-wrraper mt-10">
+    <div class="child-wrraper mt-10 row justify-content-md-center">
         {% for i in kids %}
 
-        <div class="child-card">
+        <div class="child-card col-6 col-md-4">
             <a href="{% url 'kid' i.id %}">
                 <div class="card-container">
                     {% if i.gender == 'boy'%}
