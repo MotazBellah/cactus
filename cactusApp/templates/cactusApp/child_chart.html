@@ -4,32 +4,6 @@
 {% block title %}Charts{% endblock %}
 
 {% block body %}
-<!-- <div id="logoutButton">
-    <a href="{% url 'logout' %}" class="btn btn-success">Log Out</a>
-</div> -->
-<!-- <header class="main-header">
-		<div class="header-container clearfix">
-			<h1 class="name"><a href="#"><img src="{% static 'img/logo.png'%}" alt=""></a></h1>
-			<ul class="main-nav">
-				<li><a href="#">Children</a></li>
-				<li><a href="#">Log Out</a></li>
-			</ul>
-		</div>
-</header> -->
-
-<nav class="navbar" style="background-color: #39BE61;">
-  <a class="navbar-brand" href="#">
-    <img class="logo-img" src="{% static 'img/Logo2.png'%}" alt="">
-  </a>
-  <div class="nav-content">
-      <span class="navbar-text">
-        <a href="#">Your Children</a>
-      </span>
-      <span class="navbar-text">
-        <a  href="#">Log Out</a>
-      </span>
-  </div>
-</nav>
 
 <br>
 
@@ -45,6 +19,10 @@
 
 
 
+
+<div class="loader">
+    <img src="{% static 'img/spin.gif' %}">
+</div>
 <!-- <nav class="navbar fixed-bottom navbar-light bg-light">
   <a class="navbar-brand" href="#">Fixed bottom</a>
 </nav> -->
