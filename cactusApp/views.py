@@ -48,11 +48,16 @@ def kids(request):
 
 def kid_view(request, kid_id):
     kids = Child.objects.get(pk=kid_id)
+    kid_measure = Measurement.objects.filter(child=kids)
+    measure_found = 0
+    if kid_measure:
+        measure_found = 1
+
     if request.method == "POST":
         weight = request.POST["weight"]
         height = request.POST["height"]
         head_circumference = request.POST["head"]
-        
+
         measurement = Measurement(weight=weight, height=height, head_circumference=head_circumference, child=kids)
         measurement.save()
 
@@ -60,10 +65,28 @@ def kid_view(request, kid_id):
 
     context = {
         'kid_id': kid_id,
+        'measure': measure_found,
     }
+    # print(list(kid_measure))
 
     return render(request, 'cactusApp/child_info.html', context)
 
+
+def measurement_view(request, kid_id):
+    kids = Child.objects.get(pk=kid_id)
+    kid_measure = Measurement.objects.filter(child=kids)
+    measure_found = 0
+    if kid_measure:
+        measure_found = 1
+
+
+    context = {
+        'kid_id': kid_id,
+        'measure_found': measure_found,
+        'measurements': kid_measure,
+    }
+
+    return render(request, 'cactusApp/child_measure.html', context)
 
 def charts(request, kid_id):
     return render(request, 'cactusApp/child_chart.html')
