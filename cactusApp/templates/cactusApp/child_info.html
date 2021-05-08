@@ -49,14 +49,34 @@
 </table>
 
 <a href="#" class="btn btn-success" id="add">Add Measurement</a>
+<a href="#" id="delete_child" class="btn btn-danger">Delete Child Data</a>
 
 </div>
 
 <script type="text/javascript">
     var measure = {{ measure_found }}
+    var kid_id = {{ kid_id  }}
     console.log(measure);
 
 $( document ).ready(function() {
+
+    // From Djang doc.
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
     var measure = {{ measure_found }}
     if (measure == 1) {
         $('#measure-form').hide()
@@ -72,6 +92,7 @@ $( document ).ready(function() {
         $('#measure-table').hide(1000)
         $('#measure-form').show(1000)
         $('#add').hide(1000)
+        $('#delet-child').hide(1000)
 
     });
 
@@ -80,7 +101,28 @@ $( document ).ready(function() {
         $('#measure-form').hide(1000)
         $('#measure-table').show(1000)
         $('#add').show(1000)
+        $('#delet-child').show(1000)
 
+    });
+
+    $("#delete_child").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "/delete",
+            headers: {
+                'Content-Type':'application/json',
+                'HTTP_X_REQUESTED_WITH':'XMLHttpRequest',
+                'X-Requested-With':'XMLHttpRequest',
+                'X-CSRFToken':getCookie('csrftoken'),
+                },
+            data: JSON.stringify({
+                    id: kid_id,
+                }),
+            datatype:'json',
+            success: function(response) {
+
+                       }
+                });
     });
 
 });

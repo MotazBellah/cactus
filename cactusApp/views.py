@@ -7,6 +7,7 @@ from django.contrib.auth import login, logout, authenticate
 from pygrowup import Calculator
 from pygrowup import helpers
 import datetime
+import json
 
 def index(request):
     if request.method == "POST":
@@ -73,25 +74,20 @@ def kid_view(request, kid_id):
     return render(request, 'cactusApp/child_info.html', context)
 
 
-def measurement_view(request, kid_id):
-    kids = Child.objects.get(pk=kid_id)
-    kid_measure = Measurement.objects.filter(child=kids)
-    measure_found = 0
-    if kid_measure:
-        measure_found = 1
-
-
-    context = {
-        'kid_id': kid_id,
-        'measure_found': measure_found,
-        'measurements': kid_measure,
-    }
-
-    return render(request, 'cactusApp/child_measure.html', context)
 
 def charts(request, kid_id):
     return render(request, 'cactusApp/child_chart.html')
 
+def delete_child(request):
+    if request.is_ajax() and request.method == "POST":
+            if request.user.is_authenticated:
+                data = json.loads(request.body)
+                id = data.get('id')
+                print(id)
+                child = Child.objects.get(user=request.user, pk=id)
+                child.delete()
+
+    return HttpResponseRedirect(reverse("kids"))
 
 def register(request):
     if request.method == "POST":
