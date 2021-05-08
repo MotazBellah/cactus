@@ -1,6 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 
 def getData(file_path):
@@ -13,7 +14,9 @@ def getData(file_path):
     p6 = []
     p7 = []
     p8 = []
-    with open(f'{file_path}') as csv_file:
+    workpath = os.path.dirname(os.path.abspath(__file__))
+    # os.path.join(workpath, 'file.csv'), 'rb')
+    with open(os.path.join(workpath, 'data/'+f'{file_path}')) as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         for row in csv_reader:
             age.append(float(row['Agemos']))
@@ -35,7 +38,8 @@ def getData(file_path):
 #
 # plt.axis([5, 20, 20, 40])
 # plt.plot(x, y)
-def draw(data, title, y_lable, x_lable):
+def draw(data, title, y_lable, x_lable, child_value, child_age, img_name):
+    workpath = os.path.dirname(os.path.abspath(__file__))
     age, p1, p2, p3, p4, p5, p6, p7, p8 = getData(data)
     plt.plot(age, p1, label='p1')
     plt.plot(age, p2, label='p2')
@@ -46,6 +50,7 @@ def draw(data, title, y_lable, x_lable):
     plt.plot(age, p7, label='p7')
     plt.plot(age, p8, label='p8')
 
+    plt.plot([child_age], [child_value], 'o', ms = 10)
     plt.title(title)
     plt.ylabel(y_lable)
     plt.xlabel(x_lable)
@@ -61,7 +66,13 @@ def draw(data, title, y_lable, x_lable):
 
     # plt.show()
     plt.grid()
-    plt.savefig('static/img/f1.png')
-    # fig.savefig('path/to/save/image/to.png')
+    plt.savefig(workpath+'/static/img/'+img_name+'.png')
+    print("Done")
 
-draw('data\zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)')
+
+
+# cwd = os.getcwd()  # Get the current working directory (cwd)
+# files = os.listdir(cwd)  # Get all the files in that directory
+# print("Files in %r: %s" % (cwd, files))
+
+# draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wfg')

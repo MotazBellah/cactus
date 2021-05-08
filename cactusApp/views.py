@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import Child, Measurement
 from django.contrib.auth import login, logout, authenticate
 from pygrowup import Calculator
+from .getData import draw
 from pygrowup import helpers
 import datetime
 import json
@@ -76,7 +77,10 @@ def kid_view(request, kid_id):
 
 
 def charts(request, kid_id):
+    child = Child.objects.get(pk=kid_id)
+    draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'test')
     return render(request, 'cactusApp/child_chart.html')
+
 
 def delete_child(request):
     if request.is_ajax() and request.method == "POST":
