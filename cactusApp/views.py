@@ -65,7 +65,8 @@ def kid_view(request, kid_id):
 
     context = {
         'kid_id': kid_id,
-        'measure': measure_found,
+        'measure_found': measure_found,
+        'measurements': kid_measure,
     }
     # print(list(kid_measure))
 
