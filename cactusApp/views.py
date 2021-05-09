@@ -16,6 +16,22 @@ def index(request):
         childgender = request.POST.get("childgender")
         childdate = request.POST["childdate"]
 
+        print('/////////////////')
+        print(datetime.datetime.now())
+        c = datetime.datetime.now()
+        z = c.strftime("%Y-%m-%d")
+        d1 = datetime.datetime.strptime(z, "%Y-%m-%d")
+        d2 = datetime.datetime.strptime(childdate, "%Y-%m-%d")
+
+        age = abs((d2 - d1).days)
+        print(age/30.4374)
+        print(d1.month)
+        print(d2.month)
+
+        if (age/30.4374) < 24 or (age/30.4374) > 60:
+            return JsonResponse({"error": "Child age should be in between 2 and 5 years old."})
+
+
         child = Child(name=childname, user=request.user, gender=childgender, birthday=childdate)
         child.save()
 
@@ -63,6 +79,12 @@ def kid_view(request, kid_id):
 
         bmi = float(weight) / ((float(height) / 100.0))**2
 
+        if bmi > 40:
+            return JsonResponse({"error": "BMI value is too high."})
+
+        if weight > 40:
+            return JsonResponse({"error": "Weight value is too high."})
+
         print(kids.birthday)
         c = kids.birthday
         z = c.strftime("%Y-%m-%d")
@@ -78,7 +100,7 @@ def kid_view(request, kid_id):
 
         measurement = Measurement(weight=weight, height=height,
                                   head_circumference=head_circumference, date=date,
-                                  child=kids, age=(age/30.4374), bmi=round(bmi, 2))
+                                  child=kids, age=(round(age/30.4374, 1)), bmi=round(bmi, 2))
         measurement.save()
 
         return redirect('charts', kid_id=kid_id)
@@ -96,13 +118,28 @@ def kid_view(request, kid_id):
 
 def chart_weight(request, kid_id):
     child = Child.objects.get(pk=kid_id)
+    measurements = Measurement.objects.filter(child=child)
+    bmi_list = []
+    weight_list = []
+    age_list = []
+    for measure in measurements:
+        bmi_list.append(measure.bmi)
+        weight_list.append(measure.weight)
+        age_list.append(measure.age)
+
+    print('//////////////////')
+    print(bmi_list)
+    print('@@@@@@@@@@@@@@')
+    print(age_list)
+    print('%%%%%%%%%%%%%%')
+    print(weight_list)
 
     if child.gender == 'boy':
-        draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wfa')
-        draw('zbmiage_m.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', 16, 44, 'bfa')
+        draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', weight_list, age_list, 'wfa')
+        draw('zbmiage_m.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', [16], [44], 'bfa')
     else:
-        draw('zwtage_f.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wfa')
-        draw('zbmiage_f.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', 16, 44, 'bfa')
+        draw('zwtage_f.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', weight_list, age_list, 'wfa')
+        draw('zbmiage_f.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', [16], [44], 'bfa')
 
     return render(request, 'cactusApp/child_chart.html')
 

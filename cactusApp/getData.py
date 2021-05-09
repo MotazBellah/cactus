@@ -31,13 +31,8 @@ def getData(file_path):
 
 
     return age, p1, p2, p3, p4, p5, p6, p7, p8
-# data\zwtage_m.csv'
-# x = np.array([0, 6])
-# y = np.array([0, 250])
-# y1 = np.array([3, 100])
-#
-# plt.axis([5, 20, 20, 40])
-# plt.plot(x, y)
+
+
 def draw(data, title, y_lable, x_lable, child_value, child_age, img_name):
     workpath = os.path.dirname(os.path.abspath(__file__))
     age, p1, p2, p3, p4, p5, p6, p7, p8 = getData(data)
@@ -50,7 +45,7 @@ def draw(data, title, y_lable, x_lable, child_value, child_age, img_name):
     plt.plot(age, p7, label='p7')
     plt.plot(age, p8, label='p8')
 
-    plt.plot([child_age], [child_value], 'o', ms = 10)
+    plt.plot(child_age, child_value, marker='o', ms=10, mec='r', label='Child')
     plt.title(title)
     plt.ylabel(y_lable)
     plt.xlabel(x_lable)
