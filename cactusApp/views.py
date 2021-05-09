@@ -59,8 +59,26 @@ def kid_view(request, kid_id):
         weight = request.POST["weight"]
         height = request.POST["height"]
         head_circumference = request.POST["head"]
+        date = request.POST["measure-date"]
 
-        measurement = Measurement(weight=weight, height=height, head_circumference=head_circumference, child=kids)
+        bmi = float(weight) / ((float(height) / 100.0))**2
+
+        print(kids.birthday)
+        c = kids.birthday
+        z = c.strftime("%Y-%m-%d")
+        d1 = datetime.datetime.strptime(z, "%Y-%m-%d")
+        d2 = datetime.datetime.strptime(date, "%Y-%m-%d")
+
+        age = abs((d2 - d1).days)
+
+        print(d2, d1, age)
+        print('////////////////')
+        print(age)
+        print(bmi)
+
+        measurement = Measurement(weight=weight, height=height,
+                                  head_circumference=head_circumference, date=date,
+                                  child=kids, age=(age/30.4374), bmi=round(bmi, 2))
         measurement.save()
 
         return redirect('charts', kid_id=kid_id)
@@ -78,7 +96,7 @@ def kid_view(request, kid_id):
 
 def chart_weight(request, kid_id):
     child = Child.objects.get(pk=kid_id)
-    
+
     if child.gender == 'boy':
         draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wfa')
         draw('zbmiage_m.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', 16, 44, 'bfa')

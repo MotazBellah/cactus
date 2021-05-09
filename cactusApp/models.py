@@ -16,8 +16,10 @@ class Child(models.Model):
 class Measurement(models.Model):
     weight = models.FloatField()
     height = models.FloatField()
+    age = models.FloatField()
+    bmi = models.FloatField()
     head_circumference = models.FloatField(blank=True)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
     child = models.ForeignKey(Child, on_delete=models.CASCADE)
 
     def __str__(self):
