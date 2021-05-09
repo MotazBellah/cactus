@@ -67,6 +67,7 @@ def draw(data, title, y_lable, x_lable, child_value, child_age, img_name):
     # plt.show()
     plt.grid()
     plt.savefig(workpath+'/static/img/'+img_name+'.png')
+    plt.clf()
     print("Done")
 
 
@@ -76,3 +77,6 @@ def draw(data, title, y_lable, x_lable, child_value, child_age, img_name):
 # print("Files in %r: %s" % (cwd, files))
 
 # draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wfg')
+# draw('zwtage_f.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wwww')
+
+# draw('zbmiage_f.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', 16, 44, 'bfaaaa')

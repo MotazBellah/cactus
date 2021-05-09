@@ -76,9 +76,16 @@ def kid_view(request, kid_id):
 
 
 
-def charts(request, kid_id):
+def chart_weight(request, kid_id):
     child = Child.objects.get(pk=kid_id)
-    draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'test')
+    
+    if child.gender == 'boy':
+        draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wfa')
+        draw('zbmiage_m.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', 16, 44, 'bfa')
+    else:
+        draw('zwtage_f.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wfa')
+        draw('zbmiage_f.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', 16, 44, 'bfa')
+
     return render(request, 'cactusApp/child_chart.html')
 
 
