@@ -1,3 +1,159 @@
+// -----------------------Create csrftoken -------------------------//
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+$(".err_msg").text("");
+$(".err_msg").css('visibility', 'hidden');
+$(".err_msg").css('color', 'red');
+$(".err_msg_re").css('color', 'red');
+
+
+document.querySelector('#login').addEventListener('submit', event => {
+
+    event.preventDefault();
+
+    $(".err_msg").text("");
+    $(".err_msg").css('visibility', 'hidden');
+
+    const username = document.querySelector('#username').value;
+    const password = document.querySelector('#password').value;
+
+    if(username == ""){
+		$(".err_msg").text("Please enter the username");
+    	$(".err_msg").css('visibility', 'visible');
+    	return false;
+	}
+
+    if(password == ""){
+		$(".err_msg").text("Please enter the password");
+    	$(".err_msg").css('visibility', 'visible');
+
+    	return false;
+	}
+
+    var data ={
+		username: username,
+		password: password
+	}
+    console.log(data);
+    loading()
+
+    $.ajax({
+        type: 'post',
+        url: '/login',
+        data: JSON.stringify(data),
+        headers: {
+          'Content-Type':'application/json',
+          'HTTP_X_REQUESTED_WITH':'XMLHttpRequest',
+          'X-Requested-With':'XMLHttpRequest',
+          'X-CSRFToken':getCookie('csrftoken'),
+      },
+        success: function (response) {
+            unloading()
+          console.log(response['message']);
+
+          if ('message' in response) {
+              $(".err_msg").text(response['message']);
+              $(".err_msg").css('visibility', 'visible');
+          } else {
+              window.location = "/home";
+          }
+
+      },
+       error: function (response) {
+         console.log(response);
+     }
+      });
+
+});
+
+
+document.querySelector('#register').addEventListener('submit', event => {
+
+    event.preventDefault();
+
+    $(".err_msg_re").text("");
+    $(".err_msg_re").css('visibility', 'hidden');
+
+    const username = document.querySelector('#register-name').value;
+    const password = document.querySelector('#register-password').value;
+    const password2 = document.querySelector('#register-password2').value;
+
+    if(username == ""){
+		$(".err_msg_re").text("Please enter the username");
+    	$(".err_msg_re").css('visibility', 'visible');
+    	return false;
+	}
+
+    if(password == "" || password2 == ""){
+		$(".err_msg_re").text("Please enter the password");
+    	$(".err_msg_re").css('visibility', 'visible');
+
+    	return false;
+	}
+
+    if(password !== password2 ){
+		$(".err_msg_re").text("password must match");
+    	$(".err_msg_re").css('visibility', 'visible');
+
+    	return false;
+	}
+
+    var data ={
+		username: username,
+		password: password,
+        password2: password2,
+	}
+    console.log(data);
+    loading()
+
+    $.ajax({
+        type: 'post',
+        url: '/register',
+        data: JSON.stringify(data),
+        headers: {
+          'Content-Type':'application/json',
+          'HTTP_X_REQUESTED_WITH':'XMLHttpRequest',
+          'X-Requested-With':'XMLHttpRequest',
+          'X-CSRFToken':getCookie('csrftoken'),
+      },
+        success: function (response) {
+            unloading()
+          console.log(response['message']);
+
+          if ('message' in response) {
+              $(".err_msg_re").text(response['message']);
+              $(".err_msg_re").css('visibility', 'visible');
+          } else {
+              window.location = "/home";
+          }
+
+      },
+       error: function (response) {
+         console.log(response);
+     }
+      });
+
+});
+
+
+
+
 $('#bmi-img').hide()
 $("#weight").css("color", "green");
 

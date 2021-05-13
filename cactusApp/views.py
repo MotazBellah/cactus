@@ -10,6 +10,59 @@ from pygrowup import helpers
 import datetime
 import json
 
+
+def home(request):
+    return render(request, 'cactusApp/index.html')
+
+
+def register(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
+        password2 = data.get('password')
+
+        if not password == password2:
+            return JsonResponse({"message": "Passwords don't match."})
+
+        try:
+            user = User.objects.create_user(username=username, password=password)
+            user.username = username
+            user.save()
+        except Exception as e:
+            print(e)
+            return JsonResponse({"message": "Username already exists!"})
+
+        login(request, user)
+        return JsonResponse({"status": 'ok'})
+
+
+def Login_view(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print('////////////')
+        print(data)
+        username = data.get('username')
+        password = data.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        print(user)
+        if user is not None:
+            login(request, user)
+            # return HttpResponseRedirect(reverse("index"))
+            print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+            return JsonResponse({"status": 'ok'})
+        else:
+            print('#################################')
+            return JsonResponse({"message": "Invalid credentials."})
+
+
+def logout_view(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return HttpResponseRedirect(reverse("home"))
+
+
 def index(request):
     if request.method == "POST":
         childname = request.POST["childname"]
@@ -38,20 +91,6 @@ def index(request):
         return HttpResponseRedirect(reverse("kids"))
 
     return render(request, 'cactusApp/home.html')
-
-
-def home(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(reverse("index"))
-        else:
-            return JsonResponse({"message": "Invalid credentials."})
-    return render(request, 'cactusApp/index.html')
 
 
 def kids(request):
@@ -155,29 +194,6 @@ def delete_child(request):
 
     return HttpResponseRedirect(reverse("kids"))
 
-def register(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        password2 = request.POST["password2"]
-
-        if not password == password2:
-            return JsonResponse({"message": "Passwords don't match."})
-
-        user = User.objects.create_user(username, password)
-        user.username = username
-        user.save()
-
-        login(request, user)
-
-        return render(request, "cactusApp/home.html", {"message":"Registered. You can log in now."})
-
-
-
-def logout_view(request):
-    if request.user.is_authenticated:
-        logout(request)
-    return HttpResponseRedirect(reverse("home"))
 
 
 def calculate_score(request):

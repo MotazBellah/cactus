@@ -8,18 +8,18 @@
     <div class="col-12 col-md-7">
       <img class="center" src="{% static 'img/Logo.png' %}" alt="">
       <p>Seeing a child grow up to be a healthy person is a number one priority for young parents, yet help is limited and knowledge resources are vast and complicated. This is especially crucial in the infant to toddler stages of the development.</p>
-      
+
       <p>cactus. has the purpose of helping young parents measure their child’s growth, gain understanding into risk factors and give recommendations on how to avoid these risks. Through a smart algorithm and continuous improvements based on research in cooperation with Barnklinik Halmstad, we hope to give parents a piece of helpful tools to nurture a healthy growth.</p>
     </div>
     <div class="col-12 col-md-5">
         <div class="wrapper">
             <div class="card card-center">
               <div class="card-container">
-                  <form action="{% url 'home' %}" method="post" class="form-group">
-                      {% csrf_token %}
-                      <input class="form-control my-2" name="username" type="text" placeholder="username"/>
-                      <input class="form-control my-2" name="password" type="password" placeholder="password"/>
-                      <input class="btn btn-success mt-2 login-btn" type="submit" value="Login"/>
+                  <p class="err_msg"></p>
+                  <form class="form-group" id="login" method="post">
+                      <input class="form-control my-2" id='username' name="username" type="text" placeholder="username"/>
+                      <input class="form-control my-2" id='password' name="password" type="password" placeholder="password"/>
+                      <input class="btn btn-success mt-2 login-btn"  type="submit" value="Login"/>
                   </form>
                   <hr>
                   <!-- Button trigger modal -->
@@ -40,12 +40,12 @@
        <div class="modal-header">
          <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
        </div>
-       <form class="form-group" action="{% url 'register' %}" method="post">
+       <p class="err_msg_re m-1"></p>
+       <form class="form-group" id="register" method="post">
            <div class="modal-body">
-                {% csrf_token %}
-                <input class="form-control my-2" name="username" type="text" placeholder="username"/>
-                <input class="form-control my-2" name="password" type="password" placeholder="password"/>
-                <input class="form-control my-2" name="password2" type="password" placeholder="confirm password"/>
+                <input class="form-control my-2" id="register-name" name="username" type="text" placeholder="username"/>
+                <input class="form-control my-2" id="register-password" name="password" type="password" placeholder="password"/>
+                <input class="form-control my-2" id="register-password2" name="password2" type="password" placeholder="confirm password"/>
            </div>
            <div class="modal-footer">
              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -54,6 +54,10 @@
        </form>
      </div>
    </div>
+ </div>
+
+ <div class="loader">
+     <img src="{% static 'img/spin.gif' %}">
  </div>
 
 {% endblock %}
