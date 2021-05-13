@@ -23,7 +23,7 @@ $(".err_msg").css('color', 'red');
 $(".err_msg_re").css('color', 'red');
 
 
-document.querySelector('#login').addEventListener('submit', event => {
+$('#login').submit( event => {
 
     event.preventDefault();
 
@@ -83,7 +83,7 @@ document.querySelector('#login').addEventListener('submit', event => {
 });
 
 
-document.querySelector('#register').addEventListener('submit', event => {
+$('#register').submit( event => {
 
     event.preventDefault();
 
@@ -141,6 +141,74 @@ document.querySelector('#register').addEventListener('submit', event => {
               $(".err_msg_re").css('visibility', 'visible');
           } else {
               window.location = "/home";
+          }
+
+      },
+       error: function (response) {
+         console.log(response);
+     }
+      });
+
+});
+
+
+$('#childForm').submit( event => {
+
+    event.preventDefault();
+
+    $(".err_msg_re").text("");
+    $(".err_msg_re").css('visibility', 'hidden');
+
+    const childname = document.querySelector('#childname').value;
+    const childdate = document.querySelector('#childdate').value;
+    const gender = $("#childgender :selected").val();
+
+    if(childname == ""){
+        $(".err_msg_re").text("Please enter the child name");
+        $(".err_msg_re").css('visibility', 'visible');
+        return false;
+    }
+
+    if(childdate == ''){
+        $(".err_msg_re").text("Please enter the child birthday");
+        $(".err_msg_re").css('visibility', 'visible');
+
+        return false;
+    }
+
+    if(gender == 'Choose Gender...' ){
+        $(".err_msg_re").text("Please enter the child gender");
+        $(".err_msg_re").css('visibility', 'visible');
+
+        return false;
+    }
+
+    var data ={
+        childname: childname,
+        childdate: childdate,
+        childgender: gender,
+    }
+    console.log(data);
+    loading()
+
+    $.ajax({
+        type: 'post',
+        url: '/home',
+        data: JSON.stringify(data),
+        headers: {
+          'Content-Type':'application/json',
+          'HTTP_X_REQUESTED_WITH':'XMLHttpRequest',
+          'X-Requested-With':'XMLHttpRequest',
+          'X-CSRFToken':getCookie('csrftoken'),
+      },
+        success: function (response) {
+            unloading()
+
+          if ('message' in response) {
+              $(".err_msg_re").text(response['message']);
+              $(".err_msg_re").css('visibility', 'visible');
+          } else {
+              window.location = "/kids";
           }
 
       },

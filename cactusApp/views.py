@@ -65,9 +65,12 @@ def logout_view(request):
 
 def index(request):
     if request.method == "POST":
-        childname = request.POST["childname"]
-        childgender = request.POST.get("childgender")
-        childdate = request.POST["childdate"]
+        data = json.loads(request.body)
+        print('////////////')
+        print(data)
+        childname = data.get('childname')
+        childgender = data.get("childgender")
+        childdate = data.get("childdate")
 
         print('/////////////////')
         print(datetime.datetime.now())
@@ -77,18 +80,26 @@ def index(request):
         d2 = datetime.datetime.strptime(childdate, "%Y-%m-%d")
 
         age = abs((d2 - d1).days)
-        print(age/30.4374)
+        print(round(age/30.4374))
         print(d1.month)
         print(d2.month)
 
-        if (age/30.4374) < 24 or (age/30.4374) > 60:
-            return JsonResponse({"error": "Child age should be in between 2 and 5 years old."})
+        if (round(age/30.4374)+1) < 24 or (age/30.4374) > 60:
+            return JsonResponse({"message": "Child age should be in between 2 and 5 years old."})
 
+        if childgender not in ['boy', 'girl']:
+            return JsonResponse({"message": "Child should be a boy or a girl"})
 
-        child = Child(name=childname, user=request.user, gender=childgender, birthday=childdate)
-        child.save()
+        try:
+            child = Child(name=childname, user=request.user, gender=childgender, birthday=childdate)
+            child.save()
+        except Exception as e:
+            print(e)
+            return JsonResponse({"message": e})
 
-        return HttpResponseRedirect(reverse("kids"))
+        return JsonResponse({"status": "ok"})
+
+        # return HttpResponseRedirect(reverse("kids"))
 
     return render(request, 'cactusApp/home.html')
 
@@ -165,13 +176,6 @@ def chart_weight(request, kid_id):
         bmi_list.append(measure.bmi)
         weight_list.append(measure.weight)
         age_list.append(measure.age)
-
-    print('//////////////////')
-    print(bmi_list)
-    print('@@@@@@@@@@@@@@')
-    print(age_list)
-    print('%%%%%%%%%%%%%%')
-    print(weight_list)
 
     if child.gender == 'boy':
         draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', weight_list, age_list, 'wfa')
