@@ -65,39 +65,43 @@ def logout_view(request):
 
 def index(request):
     if request.method == "POST":
-        data = json.loads(request.body)
-        print('////////////')
-        print(data)
-        childname = data.get('childname')
-        childgender = data.get("childgender")
-        childdate = data.get("childdate")
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+            print('////////////')
+            print(data)
+            childname = data.get('childname')
+            childgender = data.get("childgender")
+            childdate = data.get("childdate")
 
-        print('/////////////////')
-        print(datetime.datetime.now())
-        c = datetime.datetime.now()
-        z = c.strftime("%Y-%m-%d")
-        d1 = datetime.datetime.strptime(z, "%Y-%m-%d")
-        d2 = datetime.datetime.strptime(childdate, "%Y-%m-%d")
+            print('/////////////////')
+            print(datetime.datetime.now())
+            c = datetime.datetime.now()
+            z = c.strftime("%Y-%m-%d")
+            d1 = datetime.datetime.strptime(z, "%Y-%m-%d")
+            d2 = datetime.datetime.strptime(childdate, "%Y-%m-%d")
 
-        age = abs((d2 - d1).days)
-        print(round(age/30.4374))
-        print(d1.month)
-        print(d2.month)
+            age = abs((d2 - d1).days)
+            print(round(age/30.4374))
+            print(d1.month)
+            print(d2.month)
 
-        if (round(age/30.4374)+1) < 24 or (age/30.4374) > 60:
-            return JsonResponse({"message": "Child age should be in between 2 and 5 years old."})
+            if (round(age/30.4374)+1) < 24 or (age/30.4374) > 60:
+                return JsonResponse({"message": "Child age should be in between 2 and 5 years old."})
 
-        if childgender not in ['boy', 'girl']:
-            return JsonResponse({"message": "Child should be a boy or a girl"})
+            if childgender not in ['boy', 'girl']:
+                return JsonResponse({"message": "Child should be a boy or a girl"})
 
-        try:
-            child = Child(name=childname, user=request.user, gender=childgender, birthday=childdate)
-            child.save()
-        except Exception as e:
-            print(e)
-            return JsonResponse({"message": e})
+            try:
+                child = Child(name=childname, user=request.user, gender=childgender, birthday=childdate)
+                child.save()
+            except Exception as e:
+                print(e)
+                return JsonResponse({"message": e})
 
-        return JsonResponse({"status": "ok"})
+            return JsonResponse({"status": "ok"})
+        else:
+            return JsonResponse({"error": "notAuthorized"})
+
 
         # return HttpResponseRedirect(reverse("kids"))
 
@@ -105,6 +109,9 @@ def index(request):
 
 
 def kids(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("home"))
+
     kids = Child.objects.filter(user=request.user)
 
     context = {
@@ -115,6 +122,8 @@ def kids(request):
 
 
 def kid_view(request, kid_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("home"))
     kids = Child.objects.get(pk=kid_id)
     kid_measure = Measurement.objects.filter(child=kids)
     measure_found = 0
@@ -134,52 +143,58 @@ def kid_view(request, kid_id):
 
 def measurement(request):
     if request.method == "POST":
-        data = json.loads(request.body)
-        print('////////////')
-        print(data)
+        if request.user.is_authenticated:
+            data = json.loads(request.body)
+            print('////////////')
+            print(data)
 
-        weight = data.get("weight")
-        height = data.get("height")
-        head_circumference = data.get("head")
-        date = data.get("measuredate")
-        kid_id = data.get("kid_id")
+            weight = data.get("weight")
+            height = data.get("height")
+            head_circumference = data.get("head")
+            date = data.get("measuredate")
+            kid_id = data.get("kid_id")
 
-        kids = Child.objects.get(pk=kid_id)
+            kids = Child.objects.get(pk=kid_id)
 
-        bmi = float(weight) / ((float(height) / 100.0))**2
+            bmi = float(weight) / ((float(height) / 100.0))**2
 
-        print(bmi)
+            print(bmi)
 
-        if bmi > 40:
-            return JsonResponse({"message": "BMI value is too high."})
+            if bmi > 40:
+                return JsonResponse({"message": "BMI value is too high."})
 
-        if float(weight) > 40.0:
-            return JsonResponse({"message": "Weight value is too high."})
+            if float(weight) > 40.0:
+                return JsonResponse({"message": "Weight value is too high."})
 
-        print(kids.birthday)
-        c = kids.birthday
-        z = c.strftime("%Y-%m-%d")
-        d1 = datetime.datetime.strptime(z, "%Y-%m-%d")
-        d2 = datetime.datetime.strptime(date, "%Y-%m-%d")
+            print(kids.birthday)
+            c = kids.birthday
+            z = c.strftime("%Y-%m-%d")
+            d1 = datetime.datetime.strptime(z, "%Y-%m-%d")
+            d2 = datetime.datetime.strptime(date, "%Y-%m-%d")
 
-        age = abs((d2 - d1).days)
+            age = abs((d2 - d1).days)
 
-        print(d2, d1, age)
-        print('////////////////')
-        print(age)
-        print(bmi)
+            print(d2, d1, age)
+            print('////////////////')
+            print(age)
+            print(bmi)
 
-        measurement = Measurement(weight=weight, height=height,
-                                  head_circumference=head_circumference, date=date,
-                                  child=kids, age=(round(age/30.4374, 1)), bmi=round(bmi, 2))
-        measurement.save()
+            measurement = Measurement(weight=weight, height=height,
+                                      head_circumference=head_circumference, date=date,
+                                      child=kids, age=(round(age/30.4374, 1)), bmi=round(bmi, 2))
+            measurement.save()
 
-        return JsonResponse({"status": "ok"})
+            return JsonResponse({"status": "ok"})
+        else:
+            return JsonResponse({"error": "notAuthorized"})
 
         # return redirect('charts', kid_id=kid_id)
 
 
 def chart_weight(request, kid_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("home"))
+        
     child = Child.objects.get(pk=kid_id)
     measurements = Measurement.objects.filter(child=child)
     bmi_list = []

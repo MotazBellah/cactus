@@ -207,7 +207,12 @@ $('#childForm').submit( event => {
           if ('message' in response) {
               $(".err_msg_re").text(response['message']);
               $(".err_msg_re").css('visibility', 'visible');
-          } else {
+          }
+          else if ("error" in response) {
+              console.log(response["error"]);
+              window.location = "/";
+          }
+          else {
               window.location = "/kids";
           }
 
@@ -283,7 +288,13 @@ $('#measureForm').submit( event => {
           if ('message' in response) {
               $(".err_msg_re").text(response['message']);
               $(".err_msg_re").css('visibility', 'visible');
-          } else {
+
+          }
+         else if ("error" in response) {
+              console.log(response["error"]);
+              window.location = "/";
+          }
+          else {
               window.location = "/charts/"+ kid_id;
           }
 
