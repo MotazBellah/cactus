@@ -10,6 +10,7 @@ urlpatterns = [
     path("logout", views.logout_view, name='logout'),
     path("kids", views.kids, name='kids'),
     path("kid/<int:kid_id>", views.kid_view, name='kid'),
+    path("measurement", views.measurement, name='measurement'),
     path("charts/<int:kid_id>", views.chart_weight, name='charts'),
     path("delete", views.delete_child, name='delete'),
 

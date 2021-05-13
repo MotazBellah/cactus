@@ -220,6 +220,82 @@ $('#childForm').submit( event => {
 });
 
 
+$('#measureForm').submit( event => {
+
+    event.preventDefault();
+
+    $(".err_msg_re").text("");
+    $(".err_msg_re").css('visibility', 'hidden');
+
+    const weight = document.querySelector('#weight').value;
+    const height = document.querySelector('#height').value;
+    const head = document.querySelector('#head').value;
+    const measuredate = document.querySelector('#measuredate').value;
+
+
+    if(weight == ""){
+        $(".err_msg_re").text("Please enter the child weight");
+        $(".err_msg_re").css('visibility', 'visible');
+        return false;
+    }
+
+    if(height == ''){
+        $(".err_msg_re").text("Please enter the child height");
+        $(".err_msg_re").css('visibility', 'visible');
+
+        return false;
+    }
+
+    if(measuredate == '' ){
+        $(".err_msg_re").text("Please enter the measuer date");
+        $(".err_msg_re").css('visibility', 'visible');
+
+        return false;
+    }
+    $("#measurebtn").prop('value', 'Processing...');
+    $("#measurebtn").prop('disabled', true);
+    var data ={
+        weight: weight,
+        height: height,
+        head: head,
+        measuredate: measuredate,
+        kid_id: kid_id,
+    }
+    console.log(data);
+    loading()
+
+    $.ajax({
+        type: 'post',
+        url: '/measurement',
+        data: JSON.stringify(data),
+        headers: {
+          'Content-Type':'application/json',
+          'HTTP_X_REQUESTED_WITH':'XMLHttpRequest',
+          'X-Requested-With':'XMLHttpRequest',
+          'X-CSRFToken':getCookie('csrftoken'),
+      },
+        success: function (response) {
+            // unloading()
+            console.log(response);
+            $("#measurebtn").prop('value', 'Continue');
+            $("#measurebtn").prop('disabled', false);
+
+          if ('message' in response) {
+              $(".err_msg_re").text(response['message']);
+              $(".err_msg_re").css('visibility', 'visible');
+          } else {
+              window.location = "/charts/"+ kid_id;
+          }
+
+      },
+       error: function (response) {
+         console.log(response);
+     }
+      });
+
+});
+
+
 
 
 $('#bmi-img').hide()

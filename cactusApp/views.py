@@ -121,19 +121,40 @@ def kid_view(request, kid_id):
     if kid_measure:
         measure_found = 1
 
+
+    context = {
+        'kid_id': kid_id,
+        'measure_found': measure_found,
+        'measurements': kid_measure,
+    }
+    # print(list(kid_measure))
+
+    return render(request, 'cactusApp/child_info.html', context)
+
+
+def measurement(request):
     if request.method == "POST":
-        weight = request.POST["weight"]
-        height = request.POST["height"]
-        head_circumference = request.POST["head"]
-        date = request.POST["measure-date"]
+        data = json.loads(request.body)
+        print('////////////')
+        print(data)
+
+        weight = data.get("weight")
+        height = data.get("height")
+        head_circumference = data.get("head")
+        date = data.get("measuredate")
+        kid_id = data.get("kid_id")
+
+        kids = Child.objects.get(pk=kid_id)
 
         bmi = float(weight) / ((float(height) / 100.0))**2
 
-        if bmi > 40:
-            return JsonResponse({"error": "BMI value is too high."})
+        print(bmi)
 
-        if weight > 40:
-            return JsonResponse({"error": "Weight value is too high."})
+        if bmi > 40:
+            return JsonResponse({"message": "BMI value is too high."})
+
+        if float(weight) > 40.0:
+            return JsonResponse({"message": "Weight value is too high."})
 
         print(kids.birthday)
         c = kids.birthday
@@ -153,17 +174,9 @@ def kid_view(request, kid_id):
                                   child=kids, age=(round(age/30.4374, 1)), bmi=round(bmi, 2))
         measurement.save()
 
-        return redirect('charts', kid_id=kid_id)
+        return JsonResponse({"status": "ok"})
 
-    context = {
-        'kid_id': kid_id,
-        'measure_found': measure_found,
-        'measurements': kid_measure,
-    }
-    # print(list(kid_measure))
-
-    return render(request, 'cactusApp/child_info.html', context)
-
+        # return redirect('charts', kid_id=kid_id)
 
 
 def chart_weight(request, kid_id):
