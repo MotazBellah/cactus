@@ -6,6 +6,7 @@ import os
 
 def getData(file_path):
     age = []
+    p = []
     p1 = []
     p2 = []
     p3 = []
@@ -20,6 +21,7 @@ def getData(file_path):
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         for row in csv_reader:
             age.append(float(row['Agemos']))
+            p.append(float(row['-2']))
             p1.append(float(row['-1.5']))
             p2.append(float(row['-1']))
             p3.append(float(row['-0.5']))
@@ -30,7 +32,7 @@ def getData(file_path):
             p8.append(float(row['2']))
 
 
-    return age, p1, p2, p3, p4, p5, p6, p7, p8
+    return age, p, p1, p2, p3, p4, p5, p6, p7, p8
 
 
 def draw(data, title, y_lable, x_lable, child_value, child_age, img_name):

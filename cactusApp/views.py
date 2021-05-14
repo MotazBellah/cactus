@@ -323,6 +323,7 @@ def chart_weight(request, kid_id):
     else:
         weight = getData('zwtage_f.csv')
         bmi = getData('zbmiage_f.csv')
+    
 
 
     context = {

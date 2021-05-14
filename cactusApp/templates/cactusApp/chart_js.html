@@ -14,19 +14,22 @@
     </div>
     <br>
     <div class="chart-container" id="weight-chart">
+        <ul class="legend">
+            <li><span class="superover"></span> Z=-2/+2</li>
+            <li><span class="over"></span> Z=-1.5/+1.5</li>
+            <li><span class="kindover"></span> Z=-1/+1</li>
+            <li><span class="apnormal"></span> Z=-0.5/+0.5</li>
+            <li><span class="normal"></span> Z=0</li>
+        </ul>
         <canvas id="chart" ></canvas>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non ante laoreet, elementum est in, euismod magna. Donec vestibulum ut nulla eu euismod. Phasellus vulputate arcu sit amet porttitor iaculis.
-            Vivamus augue tortor, accumsan eu justo id, posuere rhoncus orci. Etiam condimentum egestas fringilla.</p>
 
-
-    </div>
-
-    <div class="chart-container"  id="bmi-chart">
-        <canvas id="chartBmi" ></canvas>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non ante laoreet, elementum est in, euismod magna.</p>
-
+        <div class="m-2 p-1">
+            <p>The colored lines on the growth chart are lines of constant Z-score, and show how your child's growth compares to the average.</p>
+            <p>The Z-score is the number of standard deviations above or below the average, so a Z-score of 0 means that the mean value (Healthy growth) and a Z-score of +/-2 means that is two standard deviation from the mean value (Overweight / Underweight)</p>
+        </div>
 
     </div>
+
 </div>
 
 
@@ -36,7 +39,6 @@
 
 var ctx = document.getElementById('chart').getContext('2d');
 
-var ctxBmi = document.getElementById('chartBmi').getContext('2d');
 
 // document.getElementById('chart').parentNode.style.height = '128px';
 
@@ -47,60 +49,67 @@ var myChart = new Chart(ctx, {
   data: {
     labels: xValues,
     datasets: [{
-      label: 'p1',
+      label: 'Z=-2/+2',
       data: {{weight.1}},
       pointRadius: 1,
       borderColor: "red",
       showLine: true,
       fill: false
     },{
-      label: 'p2',
+      label: 'Z=-1.5/+1.5',
       data: {{weight.2}},
-      pointRadius: 1,
-      showLine: true,
-      borderColor: "green",
-      fill: false
-    },{
-      label: 'p3',
-      data: {{weight.3}},
-      pointRadius: 1,
-      showLine: true,
-      borderColor: "blue",
-      fill: false
-    },{
-      label: 'p4',
-      data: {{weight.5}},
       pointRadius: 1,
       showLine: true,
       borderColor: "orange",
       fill: false
     },{
-      label: 'p5',
+      label: 'Z=-1/+1',
+      data: {{weight.3}},
+      pointRadius: 1,
+      showLine: true,
+      borderColor: "fuchsia",
+      fill: false
+    },{
+      label: 'Z=-0.5/+0.5',
+      data: {{weight.4}},
+      pointRadius: 1,
+      showLine: true,
+      borderColor: "lightgreen",
+      fill: false
+    },{
+      label: 'Z=0',
+      data: {{weight.5}},
+      showLine: true,
+      pointRadius: 1,
+      borderColor: "green",
+      fill: false
+    },{
+
       data: {{weight.6}},
       showLine: true,
       pointRadius: 1,
-      borderColor: "palevioletred",
+      borderColor: "lightgreen",
       fill: false
     },{
-      label: 'p6',
+
       data: {{weight.7}},
-      showLine: true,
       pointRadius: 1,
-      borderColor: "aqua",
+      showLine: true,
+      borderColor: "fuchsia",
       fill: false
     },{
-      label: 'p7',
+
       data: {{weight.8}},
-      pointRadius: 1,
       showLine: true,
-      borderColor: "blueviolet",
+      pointRadius: 1,
+      borderColor: "orange",
       fill: false
     },{
-      label: 'p8',
-      data: {{weight.1}},
+
+      data: {{weight.9}},
       showLine: true,
       pointRadius: 1,
-      borderColor: "sienna",
+      borderColor: "red",
       fill: false
     },{
     label: 'Child',
@@ -113,15 +122,13 @@ var myChart = new Chart(ctx, {
   }]
   },
   options: {
-      legend:{
-          display: true,
-          labels: {
-            usePointStyle: true,
-          }
-        },
+
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
+        legend: {
+            display: false
+        },
             title: {
                 display: true,
                 text: 'Weight For Age'
@@ -160,6 +167,11 @@ $('#bmi').click(function(){
     myChart.data.datasets[5].data = {{bmi.6}};
     myChart.data.datasets[6].data = {{bmi.7}};
     myChart.data.datasets[7].data = {{bmi.8}};
+    myChart.data.datasets[8].data = {{bmi.9}};
+
+    myChart.options.plugins.title.text = "BMI for Age"
+
+    myChart.options.scales.y.title.text = "BMI"
 
   // rerender the chart by calling update()
   myChart.update();
@@ -179,6 +191,11 @@ $('#weight').click(function(){
     myChart.data.datasets[5].data = {{weight.6}};
     myChart.data.datasets[6].data = {{weight.7}};
     myChart.data.datasets[7].data = {{weight.8}};
+    myChart.data.datasets[8].data = {{weight.9}};
+
+    myChart.options.plugins.title.text = "Weight for Age"
+
+    myChart.options.scales.y.title.text = "Weight (KG)"
 
   // rerender the chart by calling update()
   myChart.update();

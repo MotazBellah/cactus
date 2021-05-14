@@ -281,6 +281,16 @@ a {
   width: 95vw;
 }
 
+/* basic positioning */
+.legend { list-style: none; }
+.legend li { float: left; margin-right: 10px; }
+.legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
+/* your colors */
+.legend .superover { background-color: red; }
+.legend .over { background-color: orange; }
+.legend .kindover { background-color: fuchsia; }
+.legend .apnormal { background-color: lightgreen; }
+.legend .normal { background-color: green; }
 
 /* .navbar-text a, .navbar-light .navbar-text a:focus, .navbar-light .navbar-text a:hover {
     color: white;
