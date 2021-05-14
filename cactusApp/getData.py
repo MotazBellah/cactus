@@ -53,13 +53,12 @@ def draw(data, title, y_lable, x_lable, child_value, child_age, img_name):
     plt.legend()
 
     x_ticks = np.arange(24, 60, 2)
-    # x_ticks = np.arange(24, 240, 20)
+
     plt.xticks(x_ticks)
 
     y_ticks = np.arange(5, 50, 2)
     plt.yticks(y_ticks)
 
-    # plt.show()
     plt.grid()
     plt.savefig(workpath+'/static/img/'+img_name+'.png')
     plt.clf()

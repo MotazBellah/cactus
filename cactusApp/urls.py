@@ -13,5 +13,6 @@ urlpatterns = [
     path("measurement", views.measurement, name='measurement'),
     path("charts/<int:kid_id>", views.chart_weight, name='charts'),
     path("delete", views.delete_child, name='delete'),
+    # path("chartjs", views.chart_js, name='chartjs'),
 
 ]

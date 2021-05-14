@@ -24,3 +24,9 @@ class Measurement(models.Model):
 
     def __str__(self):
         return f"{self.child}, {self.weight}, {self.height}"
+
+
+class Chart(models.Model):
+    child = models.ForeignKey(Child, on_delete=models.CASCADE)
+    weight = models.ImageField(upload_to='charts')
+    bmi = models.ImageField(upload_to='charts')

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import Child, Measurement
 from django.contrib.auth import login, logout, authenticate
 from pygrowup import Calculator
-from .getData import draw
+from .getData import draw, getData
 from pygrowup import helpers
 import datetime
 import json
@@ -191,28 +191,28 @@ def measurement(request):
         # return redirect('charts', kid_id=kid_id)
 
 
-def chart_weight(request, kid_id):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("home"))
-        
-    child = Child.objects.get(pk=kid_id)
-    measurements = Measurement.objects.filter(child=child)
-    bmi_list = []
-    weight_list = []
-    age_list = []
-    for measure in measurements:
-        bmi_list.append(measure.bmi)
-        weight_list.append(measure.weight)
-        age_list.append(measure.age)
-
-    if child.gender == 'boy':
-        draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', weight_list, age_list, 'wfa')
-        draw('zbmiage_m.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', [16], [44], 'bfa')
-    else:
-        draw('zwtage_f.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', weight_list, age_list, 'wfa')
-        draw('zbmiage_f.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', [16], [44], 'bfa')
-
-    return render(request, 'cactusApp/child_chart.html')
+# def chart_weight(request, kid_id):
+#     if not request.user.is_authenticated:
+#         return HttpResponseRedirect(reverse("home"))
+#
+#     child = Child.objects.get(pk=kid_id)
+#     measurements = Measurement.objects.filter(child=child)
+#     bmi_list = []
+#     weight_list = []
+#     age_list = []
+#     for measure in measurements:
+#         bmi_list.append(measure.bmi)
+#         weight_list.append(measure.weight)
+#         age_list.append(measure.age)
+#
+#     if child.gender == 'boy':
+#         draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', weight_list, age_list, 'wfa')
+#         draw('zbmiage_m.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', [16], [44], 'bfa')
+#     else:
+#         draw('zwtage_f.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', weight_list, age_list, 'wfa')
+#         draw('zbmiage_f.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', [16], [44], 'bfa')
+#
+#     return render(request, 'cactusApp/child_chart.html')
 
 
 def delete_child(request):
@@ -269,3 +269,66 @@ def calculate_score(request):
         print(wfa_zscore_for_my_child, bmi)
 
     return render(request, 'cactusApp/index.html')
+
+
+# def chart_js(request, kid_id):
+#     if not request.user.is_authenticated:
+#         return HttpResponseRedirect(reverse("home"))
+#
+#     child = Child.objects.get(pk=kid_id)
+#     measurements = Measurement.objects.filter(child=child)
+#     bmi_list = []
+#     weight_list = []
+#     age_list = []
+#     for measure in measurements:
+#         bmi_list.append(measure.bmi)
+#         weight_list.append(measure.weight)
+#         age_list.append(measure.age)
+#
+#     age, p1, p2, p3, p4, p5, p6, p7, p8 = getData('zwtage_m.csv')
+#     print('?????????????????????????')
+#     res = dict(zip(age, p1))
+#     print(res)
+#     # print(p8)
+#     context = {
+#         'age': age,
+#         'p1': p1,
+#         'p2': p2,
+#         'p3':p3,
+#         'p4':p4,
+#         'p5':p5,
+#         'p6':p6,
+#         'p7':p7,
+#         'p8':p8,
+#     }
+#     return render(request, 'cactusApp/chart_js.html', context)
+
+def chart_weight(request, kid_id):
+    # if not request.user.is_authenticated:
+    #     return HttpResponseRedirect(reverse("home"))
+    #
+    child = Child.objects.get(pk=kid_id)
+    measurements = Measurement.objects.filter(child=child)
+    bmi_list = []
+    weight_list = []
+    age_list = []
+    for measure in measurements:
+        bmi_list.append(measure.bmi)
+        weight_list.append(measure.weight)
+        age_list.append(measure.age)
+
+    if child.gender == 'boy':
+        weight = getData('zwtage_m.csv')
+        bmi = getData('zbmiage_m.csv')
+    else:
+        weight = getData('zwtage_f.csv')
+        bmi = getData('zbmiage_f.csv')
+
+
+    context = {
+        'weight': weight,
+        'bmi': bmi
+    }
+    return render(request, 'cactusApp/chart_js.html', context)
+
+    # return render(request, 'cactusApp/child_chart.html')

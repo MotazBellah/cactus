@@ -273,6 +273,15 @@ a {
   width: 120px;
 }
 
+
+.chart-container {
+  position: relative;
+  margin: auto;
+  height: 80vh;
+  width: 95vw;
+}
+
+
 /* .navbar-text a, .navbar-light .navbar-text a:focus, .navbar-light .navbar-text a:hover {
     color: white;
 } */
@@ -284,10 +293,6 @@ a {
 ==================================== */
 
 @media (min-width: 769px) {
-
-	/* body {
-		padding-top: 68px;
-	} */
 
 	.main-header {
 		position: fixed;
@@ -349,5 +354,12 @@ a {
   .child-card {
     width: 90%;
     text-align: center;
+ }
+
+ .chart-container {
+   position: relative;
+   margin: auto;
+   height: 80vh;
+   width: 100vw;
  }
 }

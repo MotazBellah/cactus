@@ -1,0 +1,229 @@
+{% extends "cactusApp/base.html" %}
+{% load static %}
+
+{% block title %}Charts{% endblock %}
+
+{% block body %}
+
+<br>
+
+<div>
+    <div class="chart-nav">
+        <a id="weight" href="#">Weight</a>
+        <a id="bmi" href="#">BMI</a>
+    </div>
+    <br>
+    <div class="chart-container" id="weight-chart">
+        <canvas id="chart" ></canvas>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non ante laoreet, elementum est in, euismod magna. Donec vestibulum ut nulla eu euismod. Phasellus vulputate arcu sit amet porttitor iaculis.
+            Vivamus augue tortor, accumsan eu justo id, posuere rhoncus orci. Etiam condimentum egestas fringilla.</p>
+
+
+    </div>
+
+    <div class="chart-container"  id="bmi-chart">
+        <canvas id="chartBmi" ></canvas>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non ante laoreet, elementum est in, euismod magna.</p>
+
+
+    </div>
+</div>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.js"></script>
+<script type="text/javascript">
+
+var ctx = document.getElementById('chart').getContext('2d');
+
+var ctxBmi = document.getElementById('chartBmi').getContext('2d');
+
+// document.getElementById('chart').parentNode.style.height = '128px';
+
+var xValues = {{weight.0}};
+
+var myChart = new Chart(ctx, {
+  type: "scatter",
+  data: {
+    labels: xValues,
+    datasets: [{
+      label: 'p1',
+      data: {{weight.1}},
+      pointRadius: 1,
+      borderColor: "red",
+      showLine: true,
+      fill: false
+    },{
+      label: 'p2',
+      data: {{weight.2}},
+      pointRadius: 1,
+      showLine: true,
+      borderColor: "green",
+      fill: false
+    },{
+      label: 'p3',
+      data: {{weight.3}},
+      pointRadius: 1,
+      showLine: true,
+      borderColor: "blue",
+      fill: false
+    },{
+      label: 'p4',
+      data: {{weight.5}},
+      pointRadius: 1,
+      showLine: true,
+      borderColor: "orange",
+      fill: false
+    },{
+      label: 'p5',
+      data: {{weight.6}},
+      showLine: true,
+      pointRadius: 1,
+      borderColor: "palevioletred",
+      fill: false
+    },{
+      label: 'p6',
+      data: {{weight.7}},
+      showLine: true,
+      pointRadius: 1,
+      borderColor: "aqua",
+      fill: false
+    },{
+      label: 'p7',
+      data: {{weight.8}},
+      pointRadius: 1,
+      showLine: true,
+      borderColor: "blueviolet",
+      fill: false
+    },{
+      label: 'p8',
+      data: {{weight.1}},
+      showLine: true,
+      pointRadius: 1,
+      borderColor: "sienna",
+      fill: false
+    },{
+    label: 'Child',
+    data:  [{
+            x: 32,
+            y: 20
+        }],
+    pointRadius: 6,
+    borderColor: "black",
+  }]
+  },
+  options: {
+      legend:{
+          display: true,
+          labels: {
+            usePointStyle: true,
+          }
+        },
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+            title: {
+                display: true,
+                text: 'Weight For Age'
+            }
+        },
+    scales: {
+        y: {
+          title: {
+            display: true,
+            text: 'Weight (KG)'
+          }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Age (Months)'
+        }
+      }
+
+      }
+
+  }
+});
+
+
+$('#bmi').click(function(){
+
+    $("#bmi").css("color", "green");
+    $("#weight").css("color", "black");
+
+    myChart.data.datasets[0].data = {{bmi.1}};
+    myChart.data.datasets[1].data = {{bmi.2}};
+    myChart.data.datasets[2].data = {{bmi.3}};
+    myChart.data.datasets[3].data = {{bmi.4}};
+    myChart.data.datasets[4].data = {{bmi.5}};
+    myChart.data.datasets[5].data = {{bmi.6}};
+    myChart.data.datasets[6].data = {{bmi.7}};
+    myChart.data.datasets[7].data = {{bmi.8}};
+
+  // rerender the chart by calling update()
+  myChart.update();
+
+});
+
+$('#weight').click(function(){
+
+    $("#weight").css("color", "green");
+    $("#bmi").css("color", "black");
+
+    myChart.data.datasets[0].data = {{weight.1}};
+    myChart.data.datasets[1].data = {{weight.2}};
+    myChart.data.datasets[2].data = {{weight.3}};
+    myChart.data.datasets[3].data = {{weight.4}};
+    myChart.data.datasets[4].data = {{weight.5}};
+    myChart.data.datasets[5].data = {{weight.6}};
+    myChart.data.datasets[6].data = {{weight.7}};
+    myChart.data.datasets[7].data = {{weight.8}};
+
+  // rerender the chart by calling update()
+  myChart.update();
+
+});
+
+// var myChart = new Chart(ctx, {
+//     type: 'line',
+//     data: {
+//         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+//         datasets: [{
+//             label: '# of Votes',
+//             data: [12, 19, 3, 5, 2, 3],
+//             backgroundColor: [
+//                 'rgba(255, 99, 132, 0.2)',
+//                 'rgba(54, 162, 235, 0.2)',
+//                 'rgba(255, 206, 86, 0.2)',
+//                 'rgba(75, 192, 192, 0.2)',
+//                 'rgba(153, 102, 255, 0.2)',
+//                 'rgba(255, 159, 64, 0.2)'
+//             ],
+//             borderColor: [
+//                 'rgba(255, 99, 132, 1)',
+//                 'rgba(54, 162, 235, 1)',
+//                 'rgba(255, 206, 86, 1)',
+//                 'rgba(75, 192, 192, 1)',
+//                 'rgba(153, 102, 255, 1)',
+//                 'rgba(255, 159, 64, 1)'
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+//     options: {
+//         scales: {
+//             y: {
+//         min: 10,
+//         max: 50,
+//     },
+//             y: {
+//                 beginAtZero: true
+//             }
+//         }
+//     }
+// });
+</script>
+
+</script>
+{% endblock %}
