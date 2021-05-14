@@ -291,6 +291,8 @@ a {
 .legend .kindover { background-color: fuchsia; }
 .legend .apnormal { background-color: lightgreen; }
 .legend .normal { background-color: green; }
+.legend .childpoint { background-color: black; }
+
 
 /* .navbar-text a, .navbar-light .navbar-text a:focus, .navbar-light .navbar-text a:hover {
     color: white;

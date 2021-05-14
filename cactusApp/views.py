@@ -323,12 +323,21 @@ def chart_weight(request, kid_id):
     else:
         weight = getData('zwtage_f.csv')
         bmi = getData('zbmiage_f.csv')
-    
 
+    # test = [{'x': 32, 'y': 20}]
+    agee = [29, 32, 40]
+    we = [18, 20, 12]
 
+    print("????????????????")
+    print(age_list)
+    print(weight_list)
+    print(bmi_list)
     context = {
         'weight': weight,
-        'bmi': bmi
+        'bmi': bmi,
+        'age': age_list,
+        "weight_values": weight_list,
+        'bmi_values': bmi_list,
     }
     return render(request, 'cactusApp/chart_js.html', context)
 

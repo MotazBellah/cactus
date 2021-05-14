@@ -20,6 +20,7 @@
             <li><span class="kindover"></span> Z=-1/+1</li>
             <li><span class="apnormal"></span> Z=-0.5/+0.5</li>
             <li><span class="normal"></span> Z=0</li>
+            <li><span class="childpoint"></span>Child</li>
         </ul>
         <canvas id="chart" ></canvas>
 
@@ -40,7 +41,23 @@
 var ctx = document.getElementById('chart').getContext('2d');
 
 
-// document.getElementById('chart').parentNode.style.height = '128px';
+var weight_result = getObject({{age}}, {{weight_values}});
+var bmi_result = getObject({{age}}, {{bmi_values}});
+
+console.log(weight_result);
+console.log(bmi_result);
+
+
+function getObject(age_list, value_list) {
+    var result = [];
+    for (var i = 0; i < age_list.length; i++) {
+        var d = {}
+        d['x'] = age_list[i]
+        d['y'] = value_list[i]
+        result.push(d)
+    }
+    return result;
+}
 
 var xValues = {{weight.0}};
 
@@ -110,15 +127,16 @@ var myChart = new Chart(ctx, {
       showLine: true,
       pointRadius: 1,
       borderColor: "red",
-      fill: false
+      fill: false,
+
     },{
     label: 'Child',
-    data:  [{
-            x: 32,
-            y: 20
-        }],
+    data: weight_result,
     pointRadius: 6,
     borderColor: "black",
+    backgroundColor: "black",
+    fill: false,
+    order: 10
   }]
   },
   options: {
@@ -168,6 +186,7 @@ $('#bmi').click(function(){
     myChart.data.datasets[6].data = {{bmi.7}};
     myChart.data.datasets[7].data = {{bmi.8}};
     myChart.data.datasets[8].data = {{bmi.9}};
+    myChart.data.datasets[9].data = bmi_result;
 
     myChart.options.plugins.title.text = "BMI for Age"
 
@@ -192,6 +211,7 @@ $('#weight').click(function(){
     myChart.data.datasets[6].data = {{weight.7}};
     myChart.data.datasets[7].data = {{weight.8}};
     myChart.data.datasets[8].data = {{weight.9}};
+    myChart.data.datasets[9].data = weight_result;
 
     myChart.options.plugins.title.text = "Weight for Age"
 
