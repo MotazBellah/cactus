@@ -8,6 +8,9 @@
 <div class="container">
 
     <div class="child-wrraper mt-10 row justify-content-md-center">
+        {% if not kids %}
+        <h3>You have no children!</h3>
+        {% endif %}
         {% for i in kids %}
 
         <div class="child-card col-6 col-md-4">

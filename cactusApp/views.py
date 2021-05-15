@@ -10,6 +10,8 @@ import json
 
 
 def home(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
     return render(request, 'cactusApp/index.html')
 
 
@@ -189,6 +191,7 @@ def delete_child(request):
                 print(id)
                 child = Child.objects.get(user=request.user, pk=id)
                 child.delete()
+                return JsonResponse({"status": "ok"})
 
     return HttpResponseRedirect(reverse("kids"))
 
