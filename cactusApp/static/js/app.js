@@ -51,7 +51,7 @@ $('#login').submit( event => {
 		password: password
 	}
     console.log(data);
-    loading()
+    // loading()
 
     $.ajax({
         type: 'post',
@@ -64,8 +64,8 @@ $('#login').submit( event => {
           'X-CSRFToken':getCookie('csrftoken'),
       },
         success: function (response) {
-            unloading()
-          console.log(response['message']);
+            // unloading()
+          // console.log(response['message']);
 
           if ('message' in response) {
               $(".err_msg").text(response['message']);
@@ -120,7 +120,7 @@ $('#register').submit( event => {
         password2: password2,
 	}
     console.log(data);
-    loading()
+    // loading()
 
     $.ajax({
         type: 'post',
@@ -133,8 +133,8 @@ $('#register').submit( event => {
           'X-CSRFToken':getCookie('csrftoken'),
       },
         success: function (response) {
-            unloading()
-          console.log(response['message']);
+            // unloading()
+          // console.log(response['message']);
 
           if ('message' in response) {
               $(".err_msg_re").text(response['message']);
@@ -189,7 +189,7 @@ $('#childForm').submit( event => {
         childgender: gender,
     }
     console.log(data);
-    loading()
+    // loading()
 
     $.ajax({
         type: 'post',
@@ -202,7 +202,7 @@ $('#childForm').submit( event => {
           'X-CSRFToken':getCookie('csrftoken'),
       },
         success: function (response) {
-            unloading()
+            // unloading()
 
           if ('message' in response) {
               $(".err_msg_re").text(response['message']);
@@ -267,7 +267,7 @@ $('#measureForm').submit( event => {
         kid_id: kid_id,
     }
     console.log(data);
-    loading()
+    // loading()
 
     $.ajax({
         type: 'post',

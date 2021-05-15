@@ -38,8 +38,7 @@ def register(request):
 def Login_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        print('////////////')
-        print(data)
+
         username = data.get('username')
         password = data.get('password')
 
@@ -47,11 +46,8 @@ def Login_view(request):
         print(user)
         if user is not None:
             login(request, user)
-            # return HttpResponseRedirect(reverse("index"))
-            print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
             return JsonResponse({"status": 'ok'})
         else:
-            print('#################################')
             return JsonResponse({"message": "Invalid credentials."})
 
 
@@ -71,8 +67,6 @@ def index(request):
             childgender = data.get("childgender")
             childdate = data.get("childdate")
 
-            print('/////////////////')
-            print(datetime.datetime.now())
             c = datetime.datetime.now()
             z = c.strftime("%Y-%m-%d")
             d1 = datetime.datetime.strptime(z, "%Y-%m-%d")
@@ -186,32 +180,6 @@ def measurement(request):
         else:
             return JsonResponse({"error": "notAuthorized"})
 
-        # return redirect('charts', kid_id=kid_id)
-
-
-# def chart_weight(request, kid_id):
-#     if not request.user.is_authenticated:
-#         return HttpResponseRedirect(reverse("home"))
-#
-#     child = Child.objects.get(pk=kid_id)
-#     measurements = Measurement.objects.filter(child=child)
-#     bmi_list = []
-#     weight_list = []
-#     age_list = []
-#     for measure in measurements:
-#         bmi_list.append(measure.bmi)
-#         weight_list.append(measure.weight)
-#         age_list.append(measure.age)
-#
-#     if child.gender == 'boy':
-#         draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', weight_list, age_list, 'wfa')
-#         draw('zbmiage_m.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', [16], [44], 'bfa')
-#     else:
-#         draw('zwtage_f.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', weight_list, age_list, 'wfa')
-#         draw('zbmiage_f.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', [16], [44], 'bfa')
-#
-#     return render(request, 'cactusApp/child_chart.html')
-
 
 def delete_child(request):
     if request.is_ajax() and request.method == "POST":
@@ -225,42 +193,9 @@ def delete_child(request):
     return HttpResponseRedirect(reverse("kids"))
 
 
-
-# def chart_js(request, kid_id):
-#     if not request.user.is_authenticated:
-#         return HttpResponseRedirect(reverse("home"))
-#
-#     child = Child.objects.get(pk=kid_id)
-#     measurements = Measurement.objects.filter(child=child)
-#     bmi_list = []
-#     weight_list = []
-#     age_list = []
-#     for measure in measurements:
-#         bmi_list.append(measure.bmi)
-#         weight_list.append(measure.weight)
-#         age_list.append(measure.age)
-#
-#     age, p1, p2, p3, p4, p5, p6, p7, p8 = getData('zwtage_m.csv')
-#     print('?????????????????????????')
-#     res = dict(zip(age, p1))
-#     print(res)
-#     # print(p8)
-#     context = {
-#         'age': age,
-#         'p1': p1,
-#         'p2': p2,
-#         'p3':p3,
-#         'p4':p4,
-#         'p5':p5,
-#         'p6':p6,
-#         'p7':p7,
-#         'p8':p8,
-#     }
-#     return render(request, 'cactusApp/chart_js.html', context)
-
 def chart_weight(request, kid_id):
-    # if not request.user.is_authenticated:
-    #     return HttpResponseRedirect(reverse("home"))
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("home"))
     #
     child = Child.objects.get(pk=kid_id)
     measurements = Measurement.objects.filter(child=child)
@@ -295,5 +230,3 @@ def chart_weight(request, kid_id):
         'bmi_values': bmi_list,
     }
     return render(request, 'cactusApp/chart_js.html', context)
-
-    # return render(request, 'cactusApp/child_chart.html')
