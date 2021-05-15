@@ -51,11 +51,13 @@ $('#login').submit( event => {
 		password: password
 	}
     console.log(data);
-    // loading()
+    loading()
 
     $.ajax({
-        type: 'post',
+        type: 'POST',
         url: '/login',
+        enctype: 'mutipart/form-data',
+        datatype:'json',
         data: JSON.stringify(data),
         headers: {
           'Content-Type':'application/json',
@@ -64,7 +66,7 @@ $('#login').submit( event => {
           'X-CSRFToken':getCookie('csrftoken'),
       },
         success: function (response) {
-            // unloading()
+            unloading()
           // console.log(response['message']);
 
           if ('message' in response) {
@@ -120,7 +122,7 @@ $('#register').submit( event => {
         password2: password2,
 	}
     console.log(data);
-    // loading()
+    loading()
 
     $.ajax({
         type: 'post',
@@ -133,7 +135,7 @@ $('#register').submit( event => {
           'X-CSRFToken':getCookie('csrftoken'),
       },
         success: function (response) {
-            // unloading()
+            unloading()
           // console.log(response['message']);
 
           if ('message' in response) {
@@ -189,7 +191,7 @@ $('#childForm').submit( event => {
         childgender: gender,
     }
     console.log(data);
-    // loading()
+    loading()
 
     $.ajax({
         type: 'post',
@@ -202,7 +204,7 @@ $('#childForm').submit( event => {
           'X-CSRFToken':getCookie('csrftoken'),
       },
         success: function (response) {
-            // unloading()
+            unloading()
 
           if ('message' in response) {
               $(".err_msg_re").text(response['message']);
@@ -267,7 +269,7 @@ $('#measureForm').submit( event => {
         kid_id: kid_id,
     }
     console.log(data);
-    // loading()
+    loading()
 
     $.ajax({
         type: 'post',
@@ -280,7 +282,7 @@ $('#measureForm').submit( event => {
           'X-CSRFToken':getCookie('csrftoken'),
       },
         success: function (response) {
-            // unloading()
+            unloading()
             console.log(response);
             $("#measurebtn").prop('value', 'Continue');
             $("#measurebtn").prop('disabled', false);
