@@ -17,6 +17,7 @@
               <div class="card-container">
                   <p class="err_msg"></p>
                   <form class="form-group" id="login" method="post">
+                      {% csrf_token %}
                       <input class="form-control my-2" id='username' name="username" type="text" placeholder="username"/>
                       <input class="form-control my-2" id='password' name="password" type="password" placeholder="password"/>
                       <input class="btn btn-success mt-2 login-btn"  type="submit" value="Login"/>

@@ -46,41 +46,72 @@ $('#login').submit( event => {
     	return false;
 	}
 
-    var data ={
-		username: username,
-		password: password
-	}
-    console.log(data);
+    // var data ={
+	// 	username: username,
+	// 	password: password
+	// }
+
     loading()
 
-    $.ajax({
-        type: 'POST',
-        url: '/login',
-        enctype: 'mutipart/form-data',
-        datatype:'json',
-        data: JSON.stringify(data),
-        headers: {
-          'Content-Type':'application/json',
-          'HTTP_X_REQUESTED_WITH':'XMLHttpRequest',
-          'X-Requested-With':'XMLHttpRequest',
-          'X-CSRFToken':getCookie('csrftoken'),
-      },
-        success: function (response) {
+    const url = '/login'
+        const method = "POST"
+        const data = JSON.stringify({
+            username: username,
+    		password: password
+        })
+        console.log(data);
+        // var csrftoken = getCookie('csrftoken')
+
+        const xhr = new XMLHttpRequest()
+        const csrftoken = getCookie('csrftoken');
+        xhr.responseType = 'json'
+        xhr.open(method, url)
+        xhr.setRequestHeader("Content-Type", "application/json")
+        xhr.setRequestHeader('HTTP_X_REQUESTED_WITH', "XMLHttpRequest")
+        xhr.setRequestHeader('X-Requested-With', "XMLHttpRequest")
+        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+        xhr.onload = function(response) {
             unloading()
-          // console.log(response['message']);
+            console.log(response);
+            console.log(xhr.response);
+            if ('message' in xhr.response) {
+                $(".err_msg").text(xhr.response['message']);
+                $(".err_msg").css('visibility', 'visible');
+            } else {
+                window.location = "/home";
+            }
+        }
+        xhr.send(data)
 
-          if ('message' in response) {
-              $(".err_msg").text(response['message']);
-              $(".err_msg").css('visibility', 'visible');
-          } else {
-              window.location = "/home";
-          }
 
-      },
-       error: function (response) {
-         console.log(response);
-     }
-      });
+    // $.ajax({
+    //     type: 'POST',
+    //     url: '/login',
+    //     enctype: 'mutipart/form-data',
+    //     datatype:'json',
+    //     data: JSON.stringify(data),
+    //     headers: {
+    //       'Content-Type':'application/json',
+    //       'HTTP_X_REQUESTED_WITH':'XMLHttpRequest',
+    //       'X-Requested-With':'XMLHttpRequest',
+    //       'X-CSRFToken':getCookie('csrftoken'),
+    //   },
+    //     success: function (response) {
+    //         unloading()
+    //       // console.log(response['message']);
+    //
+    //       if ('message' in response) {
+    //           $(".err_msg").text(response['message']);
+    //           $(".err_msg").css('visibility', 'visible');
+    //       } else {
+    //           window.location = "/home";
+    //       }
+    //
+    //   },
+    //    error: function (response) {
+    //      console.log(response);
+    //  }
+    //   });
 
 });
 
