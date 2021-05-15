@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from .models import Child, Measurement
 from django.contrib.auth import login, logout, authenticate
 from .getData import draw, getData
-from pygrowup import helpers
 import datetime
 import json
 
