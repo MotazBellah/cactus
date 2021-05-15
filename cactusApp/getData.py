@@ -4,7 +4,9 @@ import numpy as np
 import os
 
 
-def getData(file_path):
+def getData(file_name):
+    '''Take the file name and return a list of tuples'''
+    # Create list that hold a csv data
     age = []
     p = []
     p1 = []
@@ -16,8 +18,8 @@ def getData(file_path):
     p7 = []
     p8 = []
     workpath = os.path.dirname(os.path.abspath(__file__))
-    # os.path.join(workpath, 'file.csv'), 'rb')
-    with open(os.path.join(workpath, 'data/'+f'{file_path}')) as csv_file:
+    # open csv file and for each row add to the list
+    with open(os.path.join(workpath, 'data/'+f'{file_name}')) as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         for row in csv_reader:
             age.append(float(row['Agemos']))
@@ -30,7 +32,6 @@ def getData(file_path):
             p6.append(float(row['1']))
             p7.append(float(row['1.5']))
             p8.append(float(row['2']))
-
 
     return age, p, p1, p2, p3, p4, p5, p6, p7, p8
 
@@ -65,14 +66,3 @@ def draw(data, title, y_lable, x_lable, child_value, child_age, img_name):
     plt.savefig(workpath+'/static/img/'+img_name+'.png')
     plt.clf()
     print("Done")
-
-
-
-# cwd = os.getcwd()  # Get the current working directory (cwd)
-# files = os.listdir(cwd)  # Get all the files in that directory
-# print("Files in %r: %s" % (cwd, files))
-
-# draw('zwtage_m.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wfg')
-# draw('zwtage_f.csv', "Weight For Age", 'Weight (Kg)', 'Age (Month)', 9, 44, 'wwww')
-
-# draw('zbmiage_f.csv', "BMI For Age", 'BMI (Kg)', 'Age (Month)', 16, 44, 'bfaaaa')

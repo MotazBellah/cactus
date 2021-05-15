@@ -1,4 +1,5 @@
 // -----------------------Create csrftoken -------------------------//
+// Generate csrftoken to use it in ajax call for django form
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -15,24 +16,23 @@ function getCookie(name) {
     return cookieValue;
 }
 
-
-
+// Hide all error messages for form validation
 $(".err_msg").text("");
 $(".err_msg").css('visibility', 'hidden');
 $(".err_msg").css('color', 'red');
 $(".err_msg_re").css('color', 'red');
 
-
+// When submit login form
 $('#login').submit( event => {
 
     event.preventDefault();
-
+    // Hid error message
     $(".err_msg").text("");
     $(".err_msg").css('visibility', 'hidden');
-
+    // Get the username, password values
     const username = document.querySelector('#username').value;
     const password = document.querySelector('#password').value;
-
+    // Validate the form
     if(username == ""){
 		$(".err_msg").text("Please enter the username");
     	$(".err_msg").css('visibility', 'visible');
@@ -46,14 +46,10 @@ $('#login').submit( event => {
     	return false;
 	}
 
-    // var data ={
-	// 	username: username,
-	// 	password: password
-	// }
-
+    // Display the spiner
     loading()
-
-    const url = '/login'
+    // Send XHRHTTPrequest, to send the date from client to the server
+        const url = '/login'
         const method = "POST"
         const data = JSON.stringify({
             username: username,
@@ -71,62 +67,33 @@ $('#login').submit( event => {
         xhr.setRequestHeader('X-Requested-With', "XMLHttpRequest")
         xhr.setRequestHeader("X-CSRFToken", csrftoken)
         xhr.onload = function(response) {
+            // Hide the spinner
             unloading()
-            console.log(response);
-            console.log(xhr.response);
+            // If error occurs, display it to the user
             if ('message' in xhr.response) {
                 $(".err_msg").text(xhr.response['message']);
                 $(".err_msg").css('visibility', 'visible');
             } else {
+                // success, rediret to the home page
                 window.location = "/home";
             }
         }
         xhr.send(data)
 
-
-    // $.ajax({
-    //     type: 'POST',
-    //     url: '/login',
-    //     enctype: 'mutipart/form-data',
-    //     datatype:'json',
-    //     data: JSON.stringify(data),
-    //     headers: {
-    //       'Content-Type':'application/json',
-    //       'HTTP_X_REQUESTED_WITH':'XMLHttpRequest',
-    //       'X-Requested-With':'XMLHttpRequest',
-    //       'X-CSRFToken':getCookie('csrftoken'),
-    //   },
-    //     success: function (response) {
-    //         unloading()
-    //       // console.log(response['message']);
-    //
-    //       if ('message' in response) {
-    //           $(".err_msg").text(response['message']);
-    //           $(".err_msg").css('visibility', 'visible');
-    //       } else {
-    //           window.location = "/home";
-    //       }
-    //
-    //   },
-    //    error: function (response) {
-    //      console.log(response);
-    //  }
-    //   });
-
 });
 
-
+// When submit the register form
 $('#register').submit( event => {
 
     event.preventDefault();
-
+    // Hide the error message
     $(".err_msg_re").text("");
     $(".err_msg_re").css('visibility', 'hidden');
-
+    // Get the user data
     const username = document.querySelector('#register-name').value;
     const password = document.querySelector('#register-password').value;
     const password2 = document.querySelector('#register-password2').value;
-
+    // Validate the form
     if(username == ""){
 		$(".err_msg_re").text("Please enter the username");
     	$(".err_msg_re").css('visibility', 'visible');
@@ -152,7 +119,7 @@ $('#register').submit( event => {
 		password: password,
         password2: password2,
 	}
-    console.log(data);
+
     loading()
 
     $.ajax({
@@ -167,7 +134,6 @@ $('#register').submit( event => {
       },
         success: function (response) {
             unloading()
-          // console.log(response['message']);
 
           if ('message' in response) {
               $(".err_msg_re").text(response['message']);

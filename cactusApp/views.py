@@ -63,28 +63,23 @@ def index(request):
     if request.method == "POST":
         if request.user.is_authenticated:
             data = json.loads(request.body)
-            print('////////////')
-            print(data)
+            # Get the child data
             childname = data.get('childname')
             childgender = data.get("childgender")
             childdate = data.get("childdate")
-
+            # Validate the child's age to be in between 2 and 5 years old
             c = datetime.datetime.now()
             z = c.strftime("%Y-%m-%d")
             d1 = datetime.datetime.strptime(z, "%Y-%m-%d")
             d2 = datetime.datetime.strptime(childdate, "%Y-%m-%d")
-
             age = abs((d2 - d1).days)
-            print(round(age/30.4374))
-            print(d1.month)
-            print(d2.month)
 
             if (round(age/30.4374)+1) < 24 or (age/30.4374) > 60:
                 return JsonResponse({"message": "Child age should be in between 2 and 5 years old."})
 
             if childgender not in ['boy', 'girl']:
                 return JsonResponse({"message": "Child should be a boy or a girl"})
-
+            # Add the child to DB
             try:
                 child = Child(name=childname, user=request.user, gender=childgender, birthday=childdate)
                 child.save()
@@ -105,7 +100,7 @@ def index(request):
 def kids(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("home"))
-
+    # Get the list of children
     kids = Child.objects.filter(user=request.user)
 
     context = {
@@ -118,6 +113,7 @@ def kids(request):
 def kid_view(request, kid_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("home"))
+    # Get the page about child information
     kids = Child.objects.get(pk=kid_id)
     kid_measure = Measurement.objects.filter(child=kids)
     measure_found = 0
@@ -130,7 +126,6 @@ def kid_view(request, kid_id):
         'measure_found': measure_found,
         'measurements': kid_measure,
     }
-    # print(list(kid_measure))
 
     return render(request, 'cactusApp/child_info.html', context)
 
@@ -138,10 +133,8 @@ def kid_view(request, kid_id):
 def measurement(request):
     if request.method == "POST":
         if request.user.is_authenticated:
+            # Get the child's measurement
             data = json.loads(request.body)
-            print('////////////')
-            print(data)
-
             weight = data.get("weight")
             height = data.get("height")
             head_circumference = data.get("head")
@@ -149,30 +142,22 @@ def measurement(request):
             kid_id = data.get("kid_id")
 
             kids = Child.objects.get(pk=kid_id)
-
+            # calculate the BMI
             bmi = float(weight) / ((float(height) / 100.0))**2
-
-            print(bmi)
-
+            # Validate the BMI and weight values to be logic
             if bmi > 40:
                 return JsonResponse({"message": "BMI value is too high."})
 
             if float(weight) > 40.0:
                 return JsonResponse({"message": "Weight value is too high."})
 
-            print(kids.birthday)
             c = kids.birthday
             z = c.strftime("%Y-%m-%d")
             d1 = datetime.datetime.strptime(z, "%Y-%m-%d")
             d2 = datetime.datetime.strptime(date, "%Y-%m-%d")
 
             age = abs((d2 - d1).days)
-
-            print(d2, d1, age)
-            print('////////////////')
-            print(age)
-            print(bmi)
-
+            # Added a measurement to DB
             measurement = Measurement(weight=weight, height=height,
                                       head_circumference=head_circumference, date=date,
                                       child=kids, age=(round(age/30.4374, 1)), bmi=round(bmi, 2))
@@ -188,7 +173,6 @@ def delete_child(request):
             if request.user.is_authenticated:
                 data = json.loads(request.body)
                 id = data.get('id')
-                print(id)
                 child = Child.objects.get(user=request.user, pk=id)
                 child.delete()
                 return JsonResponse({"status": "ok"})
@@ -199,9 +183,10 @@ def delete_child(request):
 def chart_weight(request, kid_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("home"))
-    #
+    # Get the child measurement from DB
     child = Child.objects.get(pk=kid_id)
     measurements = Measurement.objects.filter(child=child)
+    # Get a list of bmi, weight and age for the child
     bmi_list = []
     weight_list = []
     age_list = []
@@ -210,6 +195,7 @@ def chart_weight(request, kid_id):
         weight_list.append(measure.weight)
         age_list.append(measure.age)
 
+    # Open and Read the csv file to get the data from it(weight/bmi values for each age)
     if child.gender == 'boy':
         weight = getData('zwtage_m.csv')
         bmi = getData('zbmiage_m.csv')
@@ -217,14 +203,6 @@ def chart_weight(request, kid_id):
         weight = getData('zwtage_f.csv')
         bmi = getData('zbmiage_f.csv')
 
-    # test = [{'x': 32, 'y': 20}]
-    agee = [29, 32, 40]
-    we = [18, 20, 12]
-
-    print("????????????????")
-    print(age_list)
-    print(weight_list)
-    print(bmi_list)
     context = {
         'weight': weight,
         'bmi': bmi,

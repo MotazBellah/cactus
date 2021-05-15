@@ -85,7 +85,7 @@ $( document ).ready(function() {
                 }
                 return cookieValue;
             }
-
+    // If the child has a measurement data, then display the table otherwise display the measurement form
     var measure = {{ measure_found }}
     if (measure == 1) {
         $('#measure-form').hide()
@@ -97,13 +97,13 @@ $( document ).ready(function() {
         $('#measure-form').show()
         $('#add').hide()
     }
-
+    // On click on add button, display the measurement form and hide the table
     $('#add').click(function(){
 
         $('#measure-table').hide(1000)
         $('#measure-form').show(1000)
         $('#add').hide(1000)
-        $('#delet-child').hide(1000)
+        $('#delete_child').hide(1000)
 
     });
 
@@ -112,7 +112,7 @@ $( document ).ready(function() {
         $('#measure-form').hide(1000)
         $('#measure-table').show(1000)
         $('#add').show(1000)
-        $('#delet-child').show(1000)
+        $('#delete_child').show(1000)
 
     });
 
